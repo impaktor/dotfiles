@@ -1,0 +1,341 @@
+/* -*- javascript -*-
+   http://emacs-fu.blogspot.com/2010/12/conkeror-web-browsing-emacs-way.html
+   http://conkeror.org/ExampleConfigs
+
+   retrojs boklista:
+   http://www.goodreads.com/user/show/6789591-nibbledtodeathbycats
+
+   när flash stjäler fokus:
+   conkeror -f unfocus
+
+   FC6r att hantera history:
+   https://github.com/joseph-gay/conkeror-histmark
+ */
+
+// GENERAL CONFIGURATIONS
+//------------------------
+
+//TEST!:
+//require('daemon');
+//daemon_mode(1);
+
+// //allow installing extensions (such as adblock):
+session_pref("xpinstall.whitelist.required", false);
+
+//set_protocol_handler("magnet", null);
+set_protocol_handler("magnet", make_file("~/usr/bin/magnet.sh"));
+
+//allow for 'contrib' stuff (DONT KNOW WHAT THIS ONE DOES?)
+load_paths.unshift("chrome://conkeror-contrib/content/");
+
+homepage = "about:blank";
+
+// theme_load_paths.push("~/usr/src/conkeror/style");
+// theme_load("mono");
+
+
+//TEST!
+interactive("find-url-from-history",
+            "Open a URL in the current buffer",
+            function (I) {
+                var target = I.browse_target("find-url");
+                open_in_browser(I.buffer, target,
+                                (yield I.minibuffer.read_url($prompt =
+                                                             browse_target_prompt(target), $use_webjumps = false, $use_history =
+                                                             true, $use_bookmarks = false)));
+            });
+
+//remember state upon close, and restore if wanted.
+//Note: must close using C-x C-c, not buy using window manager
+require("session.js");
+session_auto_save_auto_load = "prompt";
+
+// we'd like to see the # of buffers being loaded
+add_hook("mode_line_hook", mode_line_adder(loading_count_widget), true);
+
+// but really we'd also like to know how many buffers are present and which is the current
+add_hook("mode_line_hook", mode_line_adder(buffer_count_widget), true);
+
+//Open Middle-Clicked Links in New Buffers
+require("clicks-in-new-buffer.js");
+
+// Now buffers open in background.
+clicks_in_new_buffer_target = OPEN_NEW_BUFFER_BACKGROUND;
+
+//Should work, check Debian-Bug #608758 --> conkeror issue335
+//print.postscript.enabled = true;
+user_pref("print.postscript.paper_size", "A4");
+
+//no clock in the mode-line.
+remove_hook("mode_line_hook", mode_line_adder(clock_widget));
+
+// load urls from the command line in new buffers instead of new windows.
+url_remoting_fn = load_url_in_new_buffer;
+
+// load download buffers in the background in the current
+// window, instead of in new windows.
+download_buffer_automatic_open_target = OPEN_NEW_BUFFER_BACKGROUND;
+
+// default directory for downloads and shell commands.
+// cwd = get_home_directory();
+// cwd.append("downloads");
+function update_save_path (info) {
+    cwd = info.target_file.parent;
+}
+add_hook("download_added_hook", update_save_path);
+
+// stop sites from stealing my keys
+require("key-kill");
+key_kill_mode.test.push(build_url_regexp($domain = "github"));
+key_kill_mode.test.push(/\/\/.*slashdot\.org\//);
+key_kill_mode.test.push(/\/\/.*smbc-comics\.com\//);
+key_kill_mode.test.push(/\/\/.*tradera\.com\//);  // nope.
+key_kill_mode.test.push(/\/\/.*lomography\.com\//);
+key_kill_mode.test.push(/\/\/.*kickstarter\.com\//);
+key_kill_mode.test.push(/\/\/.*dreamincode\.net\//);
+key_kill_mode.test.push(/\/\/.*ncbi\.nlm\.nih\.gov\//);
+
+// view source in your editor. (M-x view-source)
+view_source_use_external_editor = false;
+
+// use emacs as external editor.
+editor_shell_command = "emacsclient -c -a \"\"";
+
+// let xkcd-mode put the funny alt text into the page.
+xkcd_add_title = true;
+
+// auto completion in the minibuffer
+minibuffer_auto_complete_default = true;
+url_completion_use_history = true;       // should work since bf05c87405
+url_completion_use_bookmarks = true;
+
+//number of days to save history:
+session_pref('browser.history_expire_days', 100);
+
+
+// KEYBINDINGS
+//-------------
+
+define_key(content_buffer_normal_keymap, "d", "follow-new-buffer-background");
+
+//open new buffer of new url in background. No more C-x C-f <url> C-x b
+interactive("find-url-new-background-buffer",
+            "Open a URL in a new buffer in the background",
+            alternates(follow_new_buffer_background, follow_new_window),
+            $browser_object = browser_object_url,
+            $prompt = "Find url");
+define_key(content_buffer_normal_keymap, "w", "find-url-new-background-buffer");
+
+
+//scroll like in elinks, with ins/del
+define_key(content_buffer_normal_keymap, "delete", "cmd_scrollLineDown");
+define_key(content_buffer_normal_keymap, "insert", "cmd_scrollLineUp");
+
+key_bindings_ignore_capslock = true;
+
+// Make sure I don't close by accident
+add_hook("before_quit_hook",
+         function () {
+             var w = get_recent_conkeror_window();
+             var result = (w == null) ||
+                 "y" == (yield w.minibuffer.read_single_character_option(
+                     $prompt = "Quit Conkeror? (y/n)",
+                     $options = ["y", "n"]));
+             yield co_return(result);
+         });
+
+//C-x k wont work, use C-x C-c:
+can_kill_last_buffer = false;
+
+
+//http://conkeror.org/Focus, or else flash steals window focus.
+function focusblock (buffer) {
+    var s = Components.utils.Sandbox(buffer.top_frame);
+    s.document = buffer.document.wrappedJSObject;
+    Components.utils.evalInSandbox(
+        "(function () {\
+            function nothing () {}\
+            if (! document.forms)\
+                return;\
+            for (var i = 0, nforms = document.forms.length; i < nforms; i++) {\
+              for (var j = 0, nels = document.forms[i].elements.length; j < nels; j++)\
+                document.forms[i].elements[j].focus = nothing;\
+            }\
+          })();",
+        s);
+}
+add_hook('content_buffer_progress_change_hook', focusblock);
+
+
+
+//Use key 1,2,3,4,5,6,7,8,9,0 as shortcut for buffer 1-10.
+function define_switch_buffer_key (key, buf_num) {
+    define_key(default_global_keymap, key,
+               function (I) {
+                   switch_to_buffer(I.window,
+                                    I.window.buffers.get_buffer(buf_num));
+               });
+}
+for (let i = 0; i < 10; ++i) {
+    define_switch_buffer_key(String((i+1)%10), i);
+}
+
+
+
+// WEBJUMPS / BOOKMARKS
+//----------------------
+
+// Prompt and fast English-language TV shows.
+// https://eztv.it/
+// Simplistic, low-frills meta-search.
+define_webjump("isohunt",   "https://isohunt.com/torrents/?ihq=%s");
+// KickassTorrents, an aptly named site. Voluminous metadata and effective presentation.
+define_webjump("kat",       "https://kat.ph/usearch/%s");
+// A good alternative to btjunkie. =)
+define_webjump("torrentz",  "https://torrentz.eu/search?f=%s");
+
+// some bookmarks
+define_webjump("conk",  "http://conkeror.org");
+define_webjump("efu",   "http://emacs-fu.blogspot.com");
+//define_webjump("ew",    "http://emacswiki.org");
+define_webjump("ew",    "http://www.google.com/search?q=%s&as_sitesearch=http://emacswiki.org",
+               $alternative="http://emacswiki.org");
+
+define_webjump("emacswiki", "http://www.google.com/cse?cx=004774160799092323420%3A6-ff2s0o6yi"+
+               "&q=%s&sa=Search&siteurl=emacswiki.org%2F",
+               $alternative="http://www.emacswiki.org/");
+
+define_webjump("so",            "http://stackoverflow.com/search?q=%s");
+define_webjump("youtube",       "http://www.youtube.com/results?search_query=%s&aq=f");
+define_webjump("imdb",          "http://www.imdb.com/find?q=%s&s=all");
+define_webjump("trans",         "http://translate.google.com/translate_t#auto|en|%s");
+define_webjump("alpha",         "http://www36.wolframalpha.com/input/?i=%s");
+define_webjump("allmusic",      "http://www.allmusic.com/search/artist/%s");
+define_webjump("abebooks",      "http://www.abebooks.com/servlet/SearchResults?kn=%s");
+define_webjump("antikvariat",   "http://www.antikvariat.net");
+define_webjump("ascii",         "http://www.asciisector.net/forum");
+define_webjump("arch",          "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=%s",
+               $alternative="http://www.archlinux.org/");
+define_webjump("aur",           "https://aur.archlinux.org/packages.php?O=0&K=%s");
+define_webjump("bbc",           "http://www.bbc.co.uk/news/world/");
+define_webjump("biblioteket",   "http://biblioteksportalen.lund.se/web/arena/");
+define_webjump("c++",           "http://www.cplusplus.com/search.do?q=%s");
+define_webjump("clock",         "http://dev.thep.lu.se/clocks/");
+define_webjump("debian",        "http://forums.debian.net/");
+define_webjump("debpkg",        "http://packages.debian.org/%s");
+define_webjump("duckduckgo",    "https://duckduckgo.com/?q=%s");
+define_webjump("ebay",          "http://search.ebay.co.uk/%s",
+               $alternative="http://my.ebay.co.uk");
+define_webjump("ebay_gixen",    "http://www.gixen.com/index.php");
+define_webjump("G",             "https://encrypted.google.com/search?hl=en&source=hp&q=%s");
+
+define_webjump("git",        "https://github.com/impaktor");
+define_opensearch_webjump("g", "google.xml") // om man har andra alias som börjar på "g"
+
+define_webjump("eniro",         "http://gulasidorna.eniro.se/hitta:%s");
+define_webjump("karlf",         "http://home.thep.lu.se/~karlf");
+define_webjump("mathworld",     "http://mathworld.wolfram.com/search/?query=%s&x=0&y=0");
+define_webjump("metalarchives", "http://www.metal-archives.com/search?searchString=%s&type=band_name");
+define_webjump("minecraftwiki", "http://www.minecraftwiki.net/wiki/Minecraft_Wiki");
+define_webjump("pioneerwiki",   "http://pioneerwiki.com/wiki/Pioneer_Wiki");
+define_webjump("pioneerforum",  "http://pioneerspacesim.net/forum");
+define_webjump("pioneer",       "http://pioneerspacesim.net/");
+define_webjump("pioneerapi",    "http://eatenbyagrue.org/f/pioneer/codedoc/files/LuaBody-cpp.html");
+define_webjump("pioneergit",    "https://github.com/pioneerspacesim/pioneer");
+define_webjump("smbc",          "http://www.smbc-comics.com/");
+define_webjump("smhi",          "http://www.smhi.se/vadret/vadret-i-sverige/land/fiveDaysForecast.do?geonameid=2693678");
+define_webjump("seb",           "http://www.seb.se");
+define_webjump("sms",           "http://receive-sms-online.com/%2B46769436229.php");
+define_webjump("thinkwiki",     "http://www.thinkwiki.org/wiki/Category:Models");
+define_webjump("thep",          "http://cbbp.thep.lu.se/publications/publications.html");
+define_webjump("tradera",       "http://www.tradera.com");
+define_webjump("tv",            "http://www.tv.nu");
+define_webjump("urban",         "http://www.urbandictionary.com/define.php?term=%s");
+define_webjump("valuta",        "http://www.valuta.se");
+define_webjump("wifi",          "http://192.168.1.254/login.cgi");
+define_webjump("rateyourmusic", "http://rateyourmusic.com/search?searchtype=a&searchterm=%s");
+define_webjump("rottentomatoes","http://www.rottentomatoes.com/search/full_search.php?search=%s");
+define_webjump("xkcd",          "http://www.xkcd.com/");
+define_webjump("scheme",        "http://www.schemers.org/Documents/Standards/R5RS/HTML/");
+
+define_webjump("hackernews",    "http://www.google.com/search?q=site:news.ycombinator.com+%s",
+               $alternative = "http://news.ycombinator.com/");
+
+define_webjump("recordheaven",  "http://www.recordheaven.net/");
+define_webjump("bloodharvest",  "http://bloodharvest.se/catalog/");
+
+
+
+
+
+//use free dictionary instead:
+define_webjump("dictionary","http://www.thefreedictionary.com/%s");
+define_webjump("synonym",   "http://www.thefreedictionary.com/%s#Thesaurus");
+define_webjump("paste",     "http://paste.pocoo.org/");
+define_webjump("pirate",    "https://thepiratebay.sx/search/%s");
+define_webjump("python",    "http://docs.python.org/search.html?q=%s");
+define_webjump("eol",       "http://eol.org/search?q=%s&ie=UTF-8&search_type=text");
+define_webjump("scroogle",  "http://www.scroogle.org/cgi-bin/nbbw.cgi?Gw=%s");
+define_webjump("scrooglessl", "https://ssl.scroogle.org/cgi-bin/nbbwssl.cgi?Gw=%s");
+define_webjump("weather",   "http://www.wunderground.com/cgi-bin/findweather/getForecast?query=%s");
+define_webjump("weatherspark","http://weatherspark.com/#!graphs;q=%s",
+               $alternative="http://weatherspark.com");
+
+//is webpage down for just me?
+define_webjump("down?", function (url) {
+    if (url) {
+        return "http://downforeveryoneorjustme.com/" + url;
+    } else {
+        return "javascript:window.location.href='http://downforeveryoneorjustme.com/'+window.location.href;";
+   }
+}, $argument = "optional");
+
+
+
+
+//FUNCTIONS
+//---------
+
+//Do M-: and form_history_clear() to clear / reset formfill history, like usernames etc.
+function form_history_clear () {
+    var file = Cc["@mozilla.org/file/directory_service;1"]
+        .getService(Ci.nsIProperties)
+        .get("ProfD", Ci.nsIFile);
+    file.append("formhistory.sqlite");
+    var storage = Cc["@mozilla.org/storage/service;1"]
+        .getService(Ci.mozIStorageService);
+    var db = storage.openDatabase(file);
+    if (! db.tableExists("moz_formhistory"))
+        return;
+    var statement = db.createStatement("delete FROM moz_formhistory");
+    statement.execute();
+}
+
+
+// http://retroj.net/git/conkerorrc/history.js
+function history_clear () {
+    var history = Cc["@mozilla.org/browser/nav-history-service;1"]
+        .getService(Ci.nsIBrowserHistory);
+    history.removeAllPages();
+}
+
+interactive("history-clear", "Clear the history.", history_clear);
+
+
+
+
+// GRAPHIC MODE LINE SYMBOLS / ICONS FOR NAVIGATION:
+// -------------------------------------------------
+// load_paths.unshift("chrome://conkeror-contrib/content/");
+// require("mode-line-buttons.js");
+// mode_line_add_buttons(standard_mode_line_buttons, true);
+
+// //Tabs at the top of the page:
+// require('new-tabs');
+
+
+
+// END
+// ---
+//does this print, when starting conkeror from terminal?
+dumpln("Configuration file read to end of line. All is well.");

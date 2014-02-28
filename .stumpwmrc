@@ -1,0 +1,637 @@
+;; (defun mywm ()
+;;   (run-commands "grename F1")
+;;   (restore-from-file "~/bin/stump/my.desktop")
+;;   (run-commands "gselect 1")
+;;   (restore-window-placement-rules "~/bin/stump/my.windows")
+;;   (define-frame-preference "F1"
+;;     ;; frame raise lock (lock AND raise == jumpto)
+;;     (0 t t :class "Totem")
+;;     (1 t t :class "Firefox")
+;;     (2 t t :title "emacs"))
+;;   (run-commands "exec totem" "emacs" "exec firefox"))
+
+
+;; Much stolen from:
+;; http://stumpwm.svkt.org/cgi-bin/wiki.pl/batman.stumpwmrc
+;; http://exal.0x2.org/conf/stumpwmrc.html
+;; http://code.google.com/p/deftsp-dotfiles/source/browse/trunk/.stumpwmrc
+;;
+;; <http:en.wikipedia.org/wiki/User:Gwern/.stumpwmrc>
+
+;; Other configs:
+;; http://aperturefever.wordpress.com/2010/05/10/updating-stumpwm-conf/
+;; https://raw.github.com/milomouse/dotfiles/e35205081063912e4f1adf49d1986ef688f9dbf9/.stumpwmrc
+;; http://www.mygooglest.com/fni/stumpwm.html
+
+;; Useful functions:
+;;   info
+;;   describe-variable
+;;   describe-function
+;;   describe-key
+;;   where-is
+
+;; TODO: floating vs. banish mouse. pipa conky.
+;; TODO: kolla upp set-transient-gravity. reglerar var små rutor/popup-dialoger hamnar.
+
+;; hur ersätter jag C-M-pil (gnext/gprev) och s-pil (next frame/previous frame)
+;; läser manualen nu: C-< -, C-< #, C-< h m, C-< h c,
+
+;; hur ändrar jag storlek på fönster i gnew-float? höger-mus på kanten.
+;; change color of help-text / message text?
+;; defun = ej user visible, annars använd defcommand (har ersatt define-stumpwm-command)
+
+
+(in-package :stumpwm)
+
+(message "Loading stumpwmrc..")
+;;(run-shell-command "rm $HOME/.xsession-errors")
+
+;; don't show which window is active when switching groupes:
+;;(setf *suppress-frame-indicator* t)
+
+;;;; TEST ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Query ACPI and show the battery's status.
+(defcommand show-battery () ()
+            "Show battery information battery."
+            (echo-string (current-screen) (run-shell-command "acpi" t)))
+
+;;;; Color Theme ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defparameter FOREGROUND-COLOR "snow3")
+(defparameter BACKGROUND-COLOR "grey20")
+(defparameter BORDER-COLOR     "snow3")
+
+(defparameter BORDER-WIDTH 1)
+
+;;just used in dmenu for now
+(defparameter SELECT-BG-COLOR  "snow3")
+(defparameter SELECT-FG-COLOR  "grey20")
+
+(defparameter FONT "-*-terminus-*-r-*-*-12-120-72-72-c-*-iso8859-*")
+;;(defparameter FONT "-lispm-fixed-medium-r-normal-*-13-*-*-*-*-*-*-*")
+;;(defparameter FONT "-xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso8859-15")
+
+;;different set up for home computer and work computer
+(defvar AT_HOME t)
+(if (probe-file "/etc/SuSE-release")
+    (setf AT_HOME nil)
+    (setf AT_HOME t))
+
+
+;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; from http://en.wikipedia.org/wiki/User:Gwern/.stumpwmrc
+(defun cat (&rest strings) "A shortcut for (concatenate 'string foo bar)."
+       (apply 'concatenate 'string strings))
+
+(defcommand dmenu () ()
+            "Make dmenu use color from theme variables"
+            (run-shell-command (cat "dmenu_run -nf " FOREGROUND-COLOR
+                                    " -nb " BACKGROUND-COLOR
+                                    " -sb " SELECT-BG-COLOR
+                                    " -sf " SELECT-FG-COLOR
+                                    " -fn \""FONT"\"")))
+
+(defcommand conkeror () ()
+            "Use conkeror as browser"
+            (run-or-raise "exec conkeror" '(:title "Conkeror")))
+
+;;XXX use urxvt-daemon instead of normal urxvt.
+(defcommand term () ()
+            "Use urxvt as terminal."
+            (run-shell-command "urxvtcd" '(:instance "urxvt")))
+
+(defcommand tmux () ()
+            "Start a tmux session in urxvt"
+            (run-or-raise "urxvt -e tmux" '(:instance "tmux")))
+
+(defcommand emacs () () ;! redefining emacs command
+            "Start emacs server if not running, elese connect to it."
+            (run-or-raise "emacsclient -c -a \"\"" '(:instance "emacs")))
+
+(defcommand pdf-veiwer () ()
+            "How to view pdf-files."
+            (run-or-raise "xpdf" '(:class "pdf")))
+
+;; redefine run-shell-command for 'zsh', change :shell "", and fix a typo.
+;;affects the "exec" command, bound to "C-t !" (if C-t is prefix key).
+(defcommand run-shell-command (cmd &optional collect-output-p)
+  ((:shell "execute: "))
+  "Run the specified shell command. If @var{collect-output-p} is @code{T}
+then run the command synchronously and collect the output."
+  (if collect-output-p
+      (run-prog-collect-output *shell-program* "-c" cmd)
+      (run-prog *shell-program* :args (list "-c" cmd) :wait nil)))
+
+(setf *shell-program* (stumpwm::getenv "SHELL"))
+
+(defcommand-alias exec run-shell-command)
+
+
+(defcommand power-down () ()
+            "Shut down computer."
+            (run-shell-command "systemctl poweroff"))
+
+(defcommand screenshot-select () ()
+            "Take a screenshot of only the active window."
+            (run-shell-command "scrot -s"))
+
+(defcommand screenshot-delay () ()
+            "Take a screenshot with two seconds delay."
+            (run-shell-command "scrot -d 2"))
+
+(defcommand paste-x-selection () (:rest)
+            "Universal rat-less X paste."
+            (let ((cmd (concatenate 'string "insert " (get-x-selection))))
+              (eval-command cmd)))
+
+;; ;;This command runs the stumpwm "quit" command, but only if there aren't
+;; ;;any windows open.
+;; (defcommand "safequit" () ()
+;;   "Checks if any windows are open before quitting."
+;;   (let ((win-count 0))
+
+;;     ;; Count the windows in each group
+;;     (dolist (group (screen-groups (current-screen)))
+;;       (setq win-count (+ (length (group-windows group)) win-count)))
+
+;;     ;; Display the number of open windows or quit
+;;     (if (= win-count 0)
+;;         (run-commands "quit")
+;;       (message (format nil "You have ~d ~a open" win-count
+;;                        (if (= win-count 1) "window" "windows"))))))
+
+
+
+;;;; Key-bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; change the prefix key to something else XXX
+;;(set-prefix-key (kbd "C-<"))
+
+;;Windows key. (always use this for window managers)
+(set-prefix-key (kbd "s-q"))
+
+;; lock screen:
+(define-key *root-map* (kbd "L")   "exec xscreensaver-command -lock")
+
+(define-key *root-map* (kbd "c")   "conkeror")
+(define-key *root-map* (kbd "t")   "term")
+(define-key *root-map* (kbd "T")   "tmux")
+
+(if (not AT_HOME)
+    ;;C-z doesn't seem to work without this at work computer
+    (define-key *top-map* (kbd "C-z")   "send-escape"))
+
+;;Use windows meta key:
+(define-key *top-map* (kbd "s-c")   "conkeror")
+(define-key *top-map* (kbd "s-t")   "term")
+(define-key *top-map* (kbd "s-e")   "emacs")
+
+;; (define-key *top-map* (kbd "s-x")   "colon")
+;; (define-key *top-map* (kbd "s-X")   "eval")
+
+
+;; splitting of screen (stumpwm:vsplit = tmux:hsplit, i.e. reversed!)
+(define-key *root-map* (kbd "s")   "vsplit")
+(define-key *root-map* (kbd "C-s") "vsplit")
+(define-key *root-map* (kbd "v")   "hsplit")
+(define-key *root-map* (kbd "C-v") "hsplit")
+(define-key *root-map* (kbd "V")   "version")
+
+;;switch behavior (w->W; W->w):
+(define-key *root-map* (kbd "w")   "windowlist")
+(define-key *root-map* (kbd "W")   "windows")
+
+;;switch behavior (g->G; G->g):
+(define-key *groups-map* (kbd "g") "grouplist")
+(define-key *groups-map* (kbd "G") "vgroups")
+;;(define-key *groups-map* (kbd "G") "groups")  ;;pointless if %g in mode line
+
+;;more emacsy
+(define-key *root-map* (kbd "M-x")   "colon")
+
+;; make l behave like "
+(define-key *root-map*   (kbd "l") "windowlist")
+(define-key *groups-map* (kbd "l") "grouplist")
+
+;;like tmux:
+(define-key *root-map* (kbd "q")   "fselect")
+
+(cond (AT_HOME
+       (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 2dB+ >/dev/null")
+       (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 2dB- >/dev/null")))
+
+;; Some top-level key-maps to make it less obtrusive (and behave similar to other WM's):
+;; (define-key *top-map* (kbd "M-F2")         "dmenu")
+;; (define-key *top-map* (kbd "M-F4")         "delete")
+(define-key *top-map* (kbd "s-F2")         "dmenu")
+(define-key *top-map* (kbd "s-F4")         "delete")
+(define-key *top-map* (kbd "M-C-Right")    "gnext")
+(define-key *top-map* (kbd "M-C-Left")     "gprev")
+(define-key *top-map* (kbd "s-n")          "gnext")
+(define-key *top-map* (kbd "s-p")          "gprev")
+(define-key *top-map* (kbd "M-C-S-Right")  "gnext-with-window")
+(define-key *top-map* (kbd "M-C-S-Left")   "gprev-with-window")
+;; (define-key *top-map* (kbd "M-C-g")        "grouplist")
+;; (define-key *top-map* (kbd "M-C-w")        "windowlist")
+(define-key *top-map* (kbd "s-TAB")        "pull-hidden-next")
+(define-key *top-map* (kbd "s-RET")        "fullscreen")
+;; (define-key *top-map* (kbd "M-RET")        "fullscreen")
+
+;;Selecting frames: TODO: när jag bytt root till s ändra till *root-map*
+(define-key *top-map* (kbd "s-Up")        "move-focus up")
+(define-key *top-map* (kbd "s-Left")      "move-focus left")
+(define-key *top-map* (kbd "s-Down")      "move-focus down")
+(define-key *top-map* (kbd "s-Right")     "move-focus right")
+
+;; push the window in the adjacent frame
+(define-key *root-map* (kbd "S-Up")        "move-window up")
+(define-key *root-map* (kbd "S-Left")      "move-window left")
+(define-key *root-map* (kbd "S-Down")      "move-window down")
+(define-key *root-map* (kbd "S-Right")     "move-window right")
+(define-key *root-map* (kbd "Delete")      "repack-window-numbers")
+(define-key *root-map* (kbd "I")           "show-window-properties")
+
+
+;; Make M-C-number switch to group:
+(dotimes (i 10)
+  (unless (eq i 0) ; don't use 0
+    (define-key *top-map* (kbd (format nil "M-C-~a" i)) (format nil "gselect ~a" i))))
+
+;; Make M-C-S-number move window to group:
+(dotimes (i 10)
+  (unless (eq i 0) ; don't use 0
+    (define-key *top-map* (kbd (format nil "M-C-S-~a" i)) (format nil "gmove ~a" i))))
+
+
+
+;;;; Window placement rules  ;;;;;;;;;;;;;;;;;;;;;
+
+;; Clear rules
+(clear-window-placement-rules)
+
+;; Last rule to match takes precedence!
+;; TIP: if the argument to :title or :role begins with an ellipsis, a substring
+;; match is performed.
+;; TIP: if the :create flag is set then a missing group will be created and
+;; restored from *data-dir*/create file.
+;; TIP: if the :restore flag is set then group dump is restored even for an
+;; existing group using *data-dir*/restore file.
+
+;; (frame-number raise lock &key create restore dump-name class instance type role title)
+;;
+;; frame-number
+;;     The frame number to send matching windows to
+;; raise
+;;     When non-nil, raise and focus the window in its frame
+;; lock
+;;     When this is nil, this rule will only match when the current group
+;;     matches target-group. When non-nil, this rule matches regardless
+;;     of the group and the window is sent to target-group. If lock and
+;;     raise are both non-nil, then stumpwm will jump to the specified
+;;     group and focus the matched window.
+;; create
+;;     When non-NIL the group is created and eventually restored when the
+;;     value of create is a group dump filename in *DATA-DIR*. Defaults
+;;     to NIL.
+;; restore
+;;     When non-NIL the group is restored even if it already exists. This
+;;     arg should be set to the dump filename to use for forced
+;;     restore. Defaults to NIL
+;; class
+;;     The window's class must match class.
+;; instance
+;;     The window's instance/resource name must match instance.
+;; type
+;;     The window's type must match type.
+;; role
+;;     The window's role must match role.
+;; title
+;;     The window's title must match title.
+
+(define-frame-preference "main"
+    ;; frame raise lock (lock AND raise == jumpto)
+    (0 t   t :class "Urxvt"))
+
+(define-frame-preference "net"
+    ;; frame raise lock (lock AND raise == jumpto)
+    (0 t   t :class "Conkeror")
+    (0 t   t :instance "tmux-torrent"))
+
+(define-frame-preference "emacs"
+    (0 t   t :class "Emacs"))
+
+;;create (floating?) group if it doesn't exist:
+;; (define-frame-preference "Minecraft"
+;; (0 t   t :title "Minecraft Launcher" :create t))
+
+
+;;Deny the Gnuplot window from taking focus unless clicked upon.
+(push '(:class "Gnuplot") stumpwm:*deny-raise-request*)  ;;on SUSE Gnuplot class is not set!
+(push '(:title "Gnuplot") stumpwm:*deny-raise-request*)
+
+
+
+;;;; Misc ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; debugging (look at ".xsession-errors"), 0 (off) - 10 (on)
+;;(setf stumpwm::*debug-level* 0)
+
+;;move mouse from focused window: (TODO: only if not floating!)
+(defun banish-mouse (from-frame to-frame)
+  (run-commands "banish"))
+(add-hook *focus-window-hook* 'banish-mouse)
+
+(setf
+ *startup-message*                 nil
+ *mouse-focus-policy*              :click
+ *input-history-ignore-duplicates* T
+ *run-or-raise-all-groups*         T
+ ;; *time-format-string-default*      "%a %Y/%m/%d %I:%M%p"
+ ;; *time-modeline-string*            "%a %Y/%m/%d %I:%M%p"
+ )
+
+;; ;;Shows key-sequence being pressed, this works kind of like emacs'
+;; ;;mode-line except as messages. (Gives warnings about unused variables
+;; ;;val & key) Plus, clogs upp message history.
+;; (defun show-key-seq (key seq val)
+;;   (message (print-key-seq (reverse seq))))
+;; (add-hook *key-press-hook* 'show-key-seq)
+
+;;;; Frames ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; I just don't like zero indexing frames/windows. 0 is not next to 1
+;; on the keyboard!  See
+;; http://lists.gnu.org/archive/html/stumpwm-devel/2006-08/msg00002.html
+(setf *frame-number-map* "1234567890")
+
+;;; frame
+(set-frame-outline-width 1)
+;; (setf *new-window-preferred-frame* '(:empty :focused))
+
+
+;;;; Windows ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Window border colors.
+(set-win-bg-color       BACKGROUND-COLOR)
+
+;;Window border colors
+(set-focus-color        BORDER-COLOR)
+(set-unfocus-color      BACKGROUND-COLOR)
+
+(set-normal-gravity     :center)
+(set-maxsize-gravity    :center)
+(set-transient-gravity  :center)
+
+(setf
+ *normal-border-width*             BORDER-WIDTH
+ *window-border-style*             :thin
+ ;;  *window-number-map*               "aoeuidhtns"
+ *window-format*                   "%m%n%s %c %t"
+ )
+
+;; The width in pixels given to the borders of regular windows.
+(setf *normal-border-width*    BORDER-WIDTH)
+;; The width in pixels given to the borders of windows with maxsize or ratio hints.
+(setf *maxsize-border-width*   BORDER-WIDTH)
+;; The width in pixels given to the borders of transient or pop-up windows.
+(setf *transient-border-width* BORDER-WIDTH)
+
+
+
+
+
+;;;; The Mode Line ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; turn on/off the mode line for the current head only.
+
+
+(cond
+  (AT_HOME
+   ;(set-contrib-dir "/usr/share/stumpwm")
+   (load-module "mpd")
+   (load-module "aumix")
+   ;(load "~/usr/src/stumpwm/contrib/wicd.lisp")
+   )
+  (t
+   (load "~/usr/src/stumpwm/contrib/net.lisp")
+   (load "~/usr/src/stumpwm/contrib/aumix.lisp")
+   (load "~/usr/src/stumpwm/contrib/amixer.lisp")
+   (load "~/usr/src/stumpwm/contrib/mpd.lisp")))
+
+   (load "~/usr/src/stumpwm/contrib/cpu.lisp")
+   (load "~/usr/src/stumpwm/contrib/mem.lisp")
+
+
+;; C-< N a = add, r = remove
+;;(load "/usr/share/common-lisp/source/stumpwm/contrib/notifications.lisp")
+;;(define-key *root-map* (kbd "N") '*notifications-map*)
+
+(setf *mode-line-background-color* BACKGROUND-COLOR
+      *mode-line-foreground-color* FOREGROUND-COLOR
+      *mode-line-border-color*     BORDER-COLOR
+      *mode-line-border-width*     BORDER-WIDTH
+      ;;*mode-line-screen-position* :top
+      *mode-line-timeout*          1
+      *mode-line-pad-x*            0
+      *mode-line-pad-y*            0)
+
+(if AT_HOME
+    (setf *screen-mode-line-format* (list "[%g]  | %c %f %C %t | %M |"))
+    (setf *screen-mode-line-format* (list "[%g] | %c %f %C %t | %M | %l <> ")))
+
+;;Try for time&date to the right: (The ^> before %d makes it right-aligned.)
+;; (setf *time-modeline-string* "%Y-%m-%d %a ^B%l:%M^b")
+;; (setf *screen-mode-line-format* (list "[^B%n^b]%W" "^>[%d]"))
+
+;; turn on the modeline
+(if (not (head-mode-line (current-head)))
+    (toggle-mode-line (current-screen) (current-head)))
+;; A head is a physical monitor. A screen is a section of video memory
+;; that heads are mapped on to. When using xinerama you generally have
+;; 1 screen and many heads. When not using xinerama each screen is a
+;; physical monitor so you have many screens with only one head on them.
+
+
+
+;;;;; The Message Window ;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(set-fg-color FOREGROUND-COLOR)
+(set-bg-color BACKGROUND-COLOR)
+(set-border-color BORDER-COLOR)
+(set-msg-border-width BORDER-WIDTH)
+
+(setf *message-window-gravity* :top-right
+      ;; In seconds (integer), how long a message will appear.
+      *timeout-wait*           3
+      ;;      *input-history-ignore-duplicates* T
+      *input-window-gravity*   :top-right)
+
+;; Message window font
+(set-font FONT)
+
+
+;;;;; Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defparameter *start-menu*
+  '(("Graphics"
+     ("Color Picker"   "gcolor2")
+     ("GIMP"           "gimp")
+     ("Inkscape"       "inkscape"))
+
+    ("Internet"
+     ("Conkeror"   "conkeror")
+     ("Skype"      "skype"))
+
+    ("Sound and Video"
+     ("Europe 1"      "mplayer http://vipicecast.yacast.net/europe1")
+     ("RTL"           "mplayer http://streaming.radio.rtl.fr/rtl-1-44-96")
+     ("Mixer"         "urxvtcd -rv -e alsamixer")
+     ("Eject CD-ROM"  "eject cdrom"))
+
+    ("System Tools"
+     ("File Manager"      "urxvtcd -e mc")
+     ("Terminal Server"   "tsclient")
+                                        ; Turn on "Enable window manager's key bindings" for prefix key to
+                                        ; be passed seamlessly (when *not* in full screen).
+                                        ; Toggle between full screen and not full screen using
+                                        ; `Ctrl-Alt-Enter'.
+
+     ;; > In the case of Rdesktop you have to launch the app with the option
+     ;; > '-K' so Stump can retain control over the key combinations that you
+     ;; > input inside the remote session.
+
+     ("VirtualBox"       "VirtualBox"))
+
+    ("X Windows Tools"
+     ("Clipboard"  "xclipboard")
+     ("Fonts"      "xfontsel")
+     ("Events"     "xev"))))
+
+(defcommand menu () ()
+            "docstring"
+            (labels ((pick (options)
+                       (let ((selection (stumpwm::select-from-menu
+                                         (current-screen) options "")))
+                         (cond
+                           ((null selection)
+                            (throw 'stumpwm::error "Abort."))
+                           ((stringp (second selection))
+                            (second selection))
+                           (t
+                            (pick (cdr selection)))))))
+              (let ((choice (pick *start-menu*)))
+                (run-shell-command choice))))
+
+(define-key *root-map* (kbd "M") "menu")
+
+
+;; ;;;; Swap groups ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; Lets you use gforward and gbackward to move a group.
+
+;; (defun swap-groups (group1 group2)
+;;   (rotatef (slot-value group1 'number) (slot-value group2 'number)))
+
+;; (defun move-group-forward (&optional (group (current-group)))
+;;   (swap-groups group (next-group group (sort-groups (current-screen)))))
+
+;; (defun move-group-backward (&optional (group (current-group)))
+;;   (swap-groups group (next-group group (reverse (sort-groups (current-screen))))))
+
+;; (defcommand "gforward" () ()
+;;   "Move group forward in stacking order."
+;;   (move-group-forward)
+;;   (echo-groups (current-screen) *group-format*))
+
+;; (defcommand "gbackward" () ()
+;;   "Move group backward in stacking order."
+;;   (move-group-backward)
+;;   (echo-groups (current-screen) *group-format*))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;; from simias
+(defun shift-windows-forward (frames win)
+  (when frames
+    (let ((frame (car frames)))
+      (shift-windows-forward (cdr frames)
+                             (frame-window frame))
+      (when win
+        (pull-window win frame)))))
+
+(defcommand rotate-windows () ()
+            "cyckle through running windows in current frame layout"
+            (let* ((frames (group-frames (current-group)))
+                   (win (frame-window (car (last frames)))))
+              (shift-windows-forward frames win)))
+
+;; swap 2 windows
+(define-key *root-map* (kbd ",") "rotate-windows")
+
+
+;; from simias
+(defcommand toggle-split () ()
+            "when 2 frames: toggle betwix hsplit/vsplit"
+            (let* ((group (current-group))
+                   (cur-frame (tile-group-current-frame group))
+                   (frames (group-frames group)))
+              (if (eq (length frames) 2)
+                  (progn (if (or (neighbour :left cur-frame frames)
+                                 (neighbour :right cur-frame frames))
+                             (progn
+                               (only)
+                               (vsplit))
+                             (progn
+                               (only)
+                               (hsplit))))
+                  (message "Works only with 2 frames"))))
+
+;; toggle between vertical split and horizontal split
+(define-key *root-map* (kbd ".") "toggle-split")
+
+
+;;;; Start-up commands ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Get rid of cursor initially
+(banish-pointer)
+
+;; Create groups
+(run-commands
+ "grename main"
+ "term"
+ "gnewbg emacs"
+ "gnewbg net")
+
+;; (if AT_HOME
+;;  (run-shell-command "urxvtcd -name tmux-torrent -e torrent.sh"))
+
+(run-commands "gselect 1")
+
+;;=============================================
+
+;; ;; Load swank.
+;; ;; *prefix-key* ; swank will kick this off
+;; (load "/usr/share/emacs/site-lisp/slime/swank-loader.lisp")
+;; (swank-loader:init)
+;; (defcommand swank () ()
+;;             (swank:create-server :port 4005
+;;                                  :style swank:*communication-style*
+;;                                  :dont-close t)
+;;             (echo-string (current-screen)
+;;                          "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
+;; (swank)
+
+
+
+
+;; kör i emacs: M-x slime-connect
+
+;; alternativt:
+;; ------------
+;; (asdf:oos 'asdf:load-op 'swank)
+;; (swank:create-server :dont-close t)
+
+;; This is for the sake of Emacs.
+;; Local Variables:
+;; coding: utf-8
+;; mode: common-lisp
+;; ispell-local-dictionary: "en_US"
+;; End:

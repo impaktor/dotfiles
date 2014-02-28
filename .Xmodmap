@@ -1,0 +1,22 @@
+! mode:-*-conf-xdefaults-*-
+!Run e.g. "xmodmap -pke | grep backslash" to see info about key with backslash. Run xev in terminal to see which code a key has (or search one of the signs of it with xmodmap -pke | grep "sign")
+!syntax is
+
+! Swap Caps_Lock and Control_L
+remove Lock = Caps_Lock
+remove Control = Control_L
+keysym Caps_Lock = Control_L
+add Control = Control_L
+
+!keycode [tal] = [key] [key+shift] [key+mod] [key+mod+shift]  [key+AltGr] [key+shift+AltGr]
+keycode  47 = odiaeresis Odiaeresis NoSymbol NoSymbol bracketleft  oslash
+keycode  48 = adiaeresis Adiaeresis NoSymbol NoSymbol bracketright ae
+
+keycode  51 = apostrophe asterisk   NoSymbol NoSymbol backslash    multiply
+keycode  59 = comma      semicolon  NoSymbol NoSymbol braceleft    less
+keycode  60 = period     colon      NoSymbol NoSymbol braceright   greater
+keycode  61 = minus      underscore NoSymbol NoSymbol dollar       slash
+keycode  65 = space      space      NoSymbol NoSymbol space        space
+
+keycode 166 = Next       NoSymbol   NoSymbol NoSymbol XF86Back     XF86Back
+keycode 167 = Prior      NoSymbol   NoSymbol NoSymbol XF86Forward  XF86Forward

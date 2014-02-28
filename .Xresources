@@ -1,0 +1,425 @@
+!!För att ladda om utan att starta om X:
+!!             xrdb -load ~/.Xresources
+
+Xcursor*theme: Vanilla-DMZ
+Xcursor.size:  22
+
+!Xft.dpi:        96
+!Xft.antialias:  true
+!Xft.rgba:       rgba
+!Xft.hinting:    true
+!Xft.hinstyle:   hintslight
+
+
+!!!!!!!!!!!!!!!!!!!!!!!
+!!       URxvt       !!
+!!!!!!!!!!!!!!!!!!!!!!!
+
+URxvt.buffered:        true
+URxvt.geometry:        100x30                   !!Standardstorlek
+URxvt.cursorBlink:     true
+!URxvt*cursorColor:     #60a0c0
+!URxvt*cursorUnderline: true
+
+URxvt.urgentOnBell:    false
+URxvt.visualBell:      true
+!!URxvt*borderless:    true
+!!URxvt*tintColor:     #dfdfdf                  !!används ej, fuckar up transparency
+
+! !! lime-blå-grön-mörk-turkås:
+! URxvt.background:     [80]#0e3b5a
+! URxvt.foreground:     #10FF10
+
+URxvt.background:      black
+URxvt.foreground:      white
+
+!!Darken: 0-100, lighten: -1 -- -100, 35 är ett bra värde
+URxvt.shading:         40
+URxvt.transparent:     true
+URxvt.depth:           32
+
+URxvt.scrollBar:       false
+URxvt.scrollBar_right: true
+URxvt.scrollColor:     #2F2F33
+URxvt.scrollstyle:     plain             !! rxvt,plain,next or xterm
+URxvt.saveLines:       65536
+
+!scrolla upp/ner en rad med Shift-upp/ner:
+URxvt.keysym.Shift-Up:   command:\033]720;1\007
+URxvt.keysym.Shift-Down: command:\033]721;1\007
+
+!hoppa till output endast då jag vill:
+URxvt.scrollTtyKeypress: true
+URxvt.scrollTtyOutput:   false
+URxvt.scrollWithBuffer:  true
+
+!!undvik xft-fonter (långsama, lägg till :antialias=false i slutet),
+!!se /usr/share/fonts/misc/fonts.alias
+URxvt.font:             -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1
+!!URxvt.font:           xft:inconsolata:pixelsize=15
+
+! URxvt*font:           -misc-fixed-medium-r-semicondensed-*-15-110-75-75-c-60-iso8859-r
+! URxvt*boldFont:       -misc-fixed-medium-r-semicondensed-*-15-110-75-75-c-60-iso8859-r
+! URxvt*italicFont:     -misc-fixed-medium-r-semicondensed-*-15-110-75-75-c-60-iso8859-r
+! URxvt*boldItalicFont: -misc-fixed-medium-r-semicondensed-*-15-110-75-75-c-60-iso8859-r
+
+!!do not load any perl-libs (C-M-s is needed by emacs -nw)
+URxvt.perl-ext-common:
+URxvt.perl-ext:
+
+!disable Ctrl-Shift function.
+URxvt.iso14755: false
+
+!URxvt.perl-lib:          ~/usr/lib/urxvt/
+!URxvt.perl-ext-common:   url-select,clipboard
+!URxvt.perl-ext-common:   default,matcher,-option-popup,-selection-popup,-realine
+!URxvt.perl-ext-common:   default,matcher,clipboard,keyboard-select
+!!https://bbs.archlinux.org/viewtopic.php?pid=955356#p955356
+!!https://github.com/muennich/urxvt-perls
+!URxvt.keysym.C-y:        perl:clipboard:paste
+!URxvt.keysym.M-c:        perl:clipboard:copy
+!URxvt.keysym.M-C-v:      perl:clipboard:paste_escaped
+!URxvt.keysym.M-Escape:   perl:keyboard-select:activate
+!URxvt.keysym.M-s:        perl:keyboard-select:search
+
+!!funkar inte:
+!! URxvt*keysym.Home: \033[1~
+!! URxvt*keysym.End:  \033[4~
+
+!!Klickbara länkar erhålls genom att aktivera en
+!!perl-extension. Länkarna blir understrukna och klickbara med den
+!!knapp du väljer (jag väljer musknapp 1 här). Länkarna öppnas i
+!!valfri webbläsare.
+
+URxvt.urlLauncher:        elinks
+!!URxvt.urlLauncher:      conkeror
+URxvt*matcher.button: 1
+
+!!Ger färg åt länkarna (två nyanser av blått)
+URxvt.colorUL:           #86a2be
+URxvt.underlineColor:    #3465A4
+
+URxvt.cutchars:          ()*,<>[]{}|
+URxvt.print-pipe:        cat >/tmp/xxx
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!
+!!       Emacs       !!
+!!!!!!!!!!!!!!!!!!!!!!!
+!!Emacs*Background:    Black
+!!Emacs*Foreground:    Green
+!!Emacs*Foreground:    Wheat
+!!Emacs*bitmapIcon:    on
+!!Emacs.font:          Bitstream Vera Sans Mono-8
+!!Emacs*font:          Envy Code R
+!!Emacs*font:          Courier-10
+Emacs*geometry:        85x45
+
+
+!!!!!!!!!!!!!!!!!!!!!!!
+!!   YeahConsole     !!
+!!!!!!!!!!!!!!!!!!!!!!!
+yeahconsole.term:         urxvt +sb
+yeahconsole.reload:       0
+yeahconsole.handleWidth:  1
+yeahconsole.screenWidth:  800
+yeahconsole.aniDelay:     30
+yeahconsole.stepSize:     1
+
+
+! For color displays gnuplot honors the following resources  (shown  here
+! with  default values). The values may be color names in the X11 rgb.txt
+! file on your system, hexadecimal RGB color specifications (see X11 doc‐
+! umentation), or a color name followed by a comma and an intensity value
+! from 0 to 1. For example, blue,.5 means a half intensity blue.
+
+! gnuplot*background: white
+! gnuplot*textColor: black
+! gnuplot*borderColor: black
+! gnuplot*axisColor: black
+! gnuplot*line1Color: red
+! gnuplot*line2Color: green
+! gnuplot*line3Color: blue
+! gnuplot*line4Color: magenta
+! gnuplot*line5Color: cyan
+! gnuplot*line6Color: sienna
+! gnuplot*line7Color: orange
+! gnuplot*line8Color: coral
+
+
+!!!!!!!!!!!!!!!!!!!!!!!
+!!       XCalc       !!
+!!!!!!!!!!!!!!!!!!!!!!!
+xcalc*geometry:                        200x275
+xcalc.ti.bevel.background:             #111111
+xcalc.ti.bevel.screen.background:      #000000
+xcalc.ti.bevel.screen.DEG.background:  #000000
+xcalc.ti.bevel.screen.DEG.foreground:  LightSeaGreen
+xcalc.ti.bevel.screen.GRAD.background: #000000
+xcalc.ti.bevel.screen.GRAD.foreground: LightSeaGreen
+xcalc.ti.bevel.screen.RAD.background:  #000000
+xcalc.ti.bevel.screen.RAD.foreground:  LightSeaGreen
+xcalc.ti.bevel.screen.INV.background:  #000000
+xcalc.ti.bevel.screen.INV.foreground:  Red
+xcalc.ti.bevel.screen.LCD.background:  #000000
+xcalc.ti.bevel.screen.LCD.foreground:  LightSeaGreen
+xcalc.ti.bevel.screen.LCD.shadowWidth: 0
+xcalc.ti.bevel.screen.M.background:    #000000
+xcalc.ti.bevel.screen.M.foreground:    LightSeaGreen
+xcalc.ti.bevel.screen.P.background:    #000000
+xcalc.ti.bevel.screen.P.foreground:    Yellow
+xcalc.ti.Command.foreground:           White
+xcalc.ti.Command.background:           #777777
+xcalc.ti.button5.background:           Orange3
+xcalc.ti.button19.background:          #611161
+xcalc.ti.button18.background:          #611161
+xcalc.ti.button20.background:          #611111
+xcalc.ti.button25.background:          #722222
+xcalc.ti.button30.background:          #833333
+xcalc.ti.button35.background:          #944444
+xcalc.ti.button40.background:          #a55555
+xcalc.ti.button22.background:          #222262
+xcalc.ti.button23.background:          #222262
+xcalc.ti.button24.background:          #222272
+xcalc.ti.button27.background:          #333373
+xcalc.ti.button28.background:          #333373
+xcalc.ti.button29.background:          #333373
+xcalc.ti.button32.background:          #444484
+xcalc.ti.button33.background:          #444484
+xcalc.ti.button34.background:          #444484
+xcalc.ti.button37.background:          #555595
+xcalc.ti.button38.background:          #555595
+xcalc.ti.button39.background:          #555595
+XCalc*Cursor:                          hand2
+XCalc*ShapeStyle:                      rectangle
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!
+!!    XScreensaver   !!
+!!!!!!!!!!!!!!!!!!!!!!!
+xscreensaver.Dialog.headingFont:        -*-droid sans mono-bold-r-*-*-11-*-*-*-*-*-*-*
+xscreensaver.Dialog.bodyFont:           -*-droid sans mono-medium-r-*-*-11-*-*-*-*-*-*-*
+xscreensaver.Dialog.labelFont:          -*-droid sans mono-medium-r-*-*-11-*-*-*-*-*-*-*
+xscreensaver.Dialog.unameFont:          -*-droid sans mono-medium-r-*-*-11-*-*-*-*-*-*-*
+xscreensaver.Dialog.buttonFont:         -*-droid sans mono-bold-r-*-*-11-*-*-*-*-*-*-*
+xscreensaver.Dialog.dateFont:           -*-droid sans mono-medium-r-*-*-11-*-*-*-*-*-*-*
+xscreensaver.passwd.passwdFont:         -*-droid sans mono-bold-r-*-*-11-*-*-*-*-*-*-*
+!general dialog box (affects main hostname, username, password text)
+xscreensaver.Dialog.foreground:         #ffffff
+xscreensaver.Dialog.background:         #111111
+xscreensaver.Dialog.topShadowColor:     #111111
+xscreensaver.Dialog.bottomShadowColor:  #111111
+xscreensaver.Dialog.Button.foreground:  #666666
+xscreensaver.Dialog.Button.background:  #ffffff
+!username/password input box and date text colour
+xscreensaver.Dialog.text.foreground:    #666666
+xscreensaver.Dialog.text.background:    #ffffff
+xscreensaver.Dialog.internalBorderWidth:24
+xscreensaver.Dialog.borderWidth:        20
+xscreensaver.Dialog.shadowThickness:    2
+!timeout bar (background is actually determined by Dialog.text.background)
+xscreensaver.passwd.thermometer.foreground:  #ff0000
+xscreensaver.passwd.thermometer.background:  #000000
+xscreensaver.passwd.thermometer.width:       8
+!datestamp format--see the strftime(3) manual page for details
+xscreensaver.dateFormat:    %I:%M%P %a %b %d, %Y
+
+
+
+
+!!!!!!!!!!!!!!!!!!!!!!!
+!!   XFontSelector   !!
+!!!!!!!!!!!!!!!!!!!!!!!
+XFontSel*sampleText.background:                    TEXTBG
+XFontSel*menu*showUnselectable:                    false
+XFontSel*MenuButton.shadowWidth:                   0
+XFontsel*Toggle*ToggleStyle:                       check
+XFontsel*MenuButton*Justify:                       left
+XFontsel*MenuButton*MenuButtonStyle:               select
+.xfontsel.pane.commandBox.quitButton.background:   #777777
+.xfontsel.pane.commandBox.quitButton.foreground:   snow
+.xfontsel.pane.commandBox.ownButton.background:    orange3
+.xfontsel.pane.commandBox.ownButton.foreground:    snow
+.xfontsel.pane.commandBox.countLabel.background:   snow
+.xfontsel.pane.viewPort.sampleText.background:     #777777
+.xfontsel.pane.viewPort.sampleText.foreground:     snow
+.xfontsel.pane.fieldBox.field0.background:         #555595
+.xfontsel.pane.fieldBox.field0.foreground:         snow
+.xfontsel.pane.fieldBox.field1.background:         #444484
+.xfontsel.pane.fieldBox.field1.foreground:         snow
+.xfontsel.pane.fieldBox.field2.background:         #333373
+.xfontsel.pane.fieldBox.field2.foreground:         snow
+.xfontsel.pane.fieldBox.field3.background:         #222272
+.xfontsel.pane.fieldBox.field3.foreground:         snow
+.xfontsel.pane.fieldBox.field4.background:         #222262
+.xfontsel.pane.fieldBox.field4.foreground:         snow
+.xfontsel.pane.fieldBox.field5.background:         #a55555
+.xfontsel.pane.fieldBox.field5.foreground:         snow
+.xfontsel.pane.fieldBox.field6.background:         #944444
+.xfontsel.pane.fieldBox.field6.foreground:         snow
+.xfontsel.pane.fieldBox.field7.background:         #833333
+.xfontsel.pane.fieldBox.field7.foreground:         snow
+.xfontsel.pane.fieldBox.field8.background:         #722222
+.xfontsel.pane.fieldBox.field8.foreground:         snow
+.xfontsel.pane.fieldBox.field9.background:         #722222
+.xfontsel.pane.fieldBox.field9.foreground:         snow
+.xfontsel.pane.fieldBox.field10.background:        #611111
+.xfontsel.pane.fieldBox.field10.foreground:        snow
+.xfontsel.pane.fieldBox.field11.background:        #611111
+.xfontsel.pane.fieldBox.field11.foreground:        snow
+.xfontsel.pane.fieldBox.field12.background:        #611161
+.xfontsel.pane.fieldBox.field12.foreground:        snow
+.xfontsel.pane.fieldBox.field13.background:        #611161
+.xfontsel.pane.fieldBox.field13.foreground:        snow
+.xfontsel.pane.fieldBox*foreground:                #000000
+.xfontsel.pane.fieldBox.MenuButton.borderWidth:    1
+.xfontsel.pane.fieldBox.MenuButton.internalHeight: 1
+.xfontsel.pane.fieldBox.MenuButton.internalWidth:  2
+.xfontsel.pane.fieldBox.MenuButton.shapeStyle:     rectangle
+
+XTerm*termName:           xterm-256color
+XTerm*color0:             #000000
+XTerm*color1:             #b21818
+XTerm*color2:             #18b218
+XTerm*color3:             #BE5F00
+XTerm*color4:             #6D85BA
+XTerm*color5:             #b218b2
+XTerm*color6:             #18b2b2
+XTerm*color7:             #b2b2b2
+XTerm*color8:             #686868
+XTerm*color9:             #FF5454
+XTerm*color10:            #54FF54
+XTerm*color11:            #FFFF54
+XTerm*color12:            #73A5FF
+XTerm*color13:            #FF54FF
+XTerm*color14:            #54FFFF
+XTerm*color15:            #FFFFFF
+XTerm*background:         black
+XTerm*foreground:         #A8A8A8
+Xterm*VT100*geometry:     94x28
+XTerm*font:               -misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-1
+XTerm*loginShell:         true
+XTerm*scrollBar:          true
+XTerm*rightScrollBar:     true
+XTerm*title:              XTerm
+XTerm*iconName:           XTerm
+XTerm*saveLines:          50000
+XTerm*jumpScroll:         true
+XTerm*scrollTtyOutput:    false
+XTerm*scrollKey:          true
+XTerm*alwaysUseMods:      true
+XTerm*metaSendsEscape:    true
+XTerm*utf8Title:          true
+
+! look in man xdvi
+! http://blog.nguyenvq.com/2011/05/10/emacs-keybindings-in-xpdf-and-xdvi/
+xdvi.mainTranslations:  #override \
+Ctrl<Key>v:       down-or-next()\n\
+Alt<Key>v:        up-or-previous()\n\
+Alt<Key>f:        right(0.1)\n\
+Alt<Key>b:        left(0.1)\n\
+Ctrl<Key>f:       right(0.015)\n\
+Ctrl<Key>b:       left(0.015)\n\
+Ctrl<Key>n:       down(0.015)\n\
+Ctrl<Key>p:       up(0.015)\n\
+Ctrl<Key>h:       help()\n\
+<Key>l:           right(0.015)\n\
+<Key>h:           left(0.015)\n\
+<Key>j:           down(0.015)\n\
+<Key>k:           up(0.015)\n\
+Ctrl<Key>s:       find()\n
+xdvi*shrinkFactor:      4
+xdvi*font:              -*-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*
+xdvi*statusline*font:   -*-helvetica-medium-r-*-*-11-*-*-*-*-*-*-*
+xdvi.reverseVideo: false
+
+! C-g find-next()
+! g   goto-page()
+
+! Ctrl<Key>PgUp: goto-page(1)\n\
+! Ctrl<Key>PageDown: goto-page()\n\
+
+
+
+! look in man xpdf and xpdfrc; ~/.xpdfrc
+xpdf*geometry: 1350x700
+
+! ! ! !!Zenburn-aktigt. Använt detta tema länge:
+! ! ! !! Greenish theme
+! *color0:       #000000
+! *color8:       #666666
+! !! DarkRed + Red
+! *color1:       #b45151
+! *color9:       #fe8686
+! !! DarkGreen + Green
+! *color2:       #8ba574
+! *color10:      #a5dca5
+! !! DarkYellow + Yellow
+! *color3:       Khaki3
+! *color11:      #efe58b
+! !! DarkBlue + Blue
+! *color4:       #2797d8
+! *color12:      #86cdea
+! !! DarkMangenta + Mangenta
+! *color5:       #aa6eaf
+! *color13:      #b698b8
+! !!DarkCyan + Cyan
+! *color6:       #418179
+! *color14:      #71bebe
+! !! LightGrey + White
+! *color7:       #bebebe
+! *color15:      #ffffff
+
+
+! !!Christians:
+! !URxvt*termName: rxvt-256color
+! URxvt*background:       #3f3f3f
+! URxvt*foreground:       #dcdccc
+! URxvt*cursorColor:      #aaaaaa
+! URxvt*colorUL:          #366060
+! URxvt*underlineColor:   #dfaf8f
+! URxvt*color0:           #3f3f3f
+! URxvt*color1:           #cc9393
+! URxvt*color2:           #7f9f7f
+! URxvt*color3:           #d0bf8f
+! URxvt*color4:           #6ca0a3
+! URxvt*color5:           #dc8cc3
+! URxvt*color6:           #93e0e3
+! URxvt*color7:           #dcdccc
+! URxvt*color8:           #000000
+! URxvt*color9:           #dca3a3
+! URxvt*color10:          #bfebbf
+! URxvt*color11:          #f0dfaf
+! URxvt*color12:          #8cd0d3
+! URxvt*color13:          #dc8cc3
+! URxvt*color14:          #93e0e3
+! URxvt*color15:          #ffffff
+
+!Nice. lite oliv-matta färger.
+! black
+*color0:                #555753
+*color8:                #202020
+! red
+*color1:                #CC0000
+*color9:                #EF2929
+! green
+*color2:                #6AAD2B
+*color10:               #ABFD5B
+! yellow
+*color3:                #C4A000
+*color11:               #FCE94F
+! blue
+*color4:                #3465A4
+*color12:               #1793D0
+! magenta
+*color5:                #948696
+*color13:               #BCACBB
+! cyan
+*color6:                #06989A
+*color14:               #34E2E2
+! white
+*color7:                #EEEEEE
+*color15:               #FFFFFF
