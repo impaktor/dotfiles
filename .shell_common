@@ -1,0 +1,326 @@
+# -*- shell-script -*-
+#Stuff common to both zsh and bash. I have .bashrc and .zshrc load this file.
+
+export XEDITOR="emacsclient -nw -a \"\""
+export EDITOR="emacsclient -nw -a \"\""
+
+# har installerat lite lokala paket för coursera-dl här:
+PYTHONPATH=$HOME"/usr/local/lib/python2.7/site-packages/"
+export PYTHONPATH
+
+if [ -n "$DISPLAY" ]; then
+    export BROWSER=conkeror
+fi
+
+#don't have long lines in man, just because terminal is big.
+export MANWIDTH=80
+
+# sudo edit file with root privelege, using emacs in terminal.
+function semacs() {
+    filename=$1
+
+    #work with relative paths:
+    without_beg_slash="${1##/}"
+    if [[ $without_beg_slash == $1 ]];then
+        filename="${PWD%//}/$1"
+    fi
+
+    #emacsclient -nw -a emacs "/sudo:root@localhost:$filename"
+    emacsclient -nw -a "" "/sudo:root@localhost:$filename"
+}
+
+
+function conkeror_open() {
+    filename=$1
+
+    #work with relative paths:
+    without_beg_slash="${1##/}"
+    if [[ $without_beg_slash == $1 ]];then
+        filename="${PWD%//}/$1"
+    fi
+
+    echo opening file: $filename
+    conkeror $filename
+}
+
+
+#emacs no window, attach to (or start) running server:
+alias nwemacs="emacsclient -nw -a \"\""
+
+#emacs, attach to (or start) running server:
+alias cemacs="emacsclient -a \"\""
+
+#Suse specific aliases:
+if [ -f /etc/SuSE-release ]; then
+    alias nuffe="/usr/local/bin/xudo /sbin/yast2 sw_single"
+    export SBCL_HOME=/home/b2/karlf/usr/lib/sbcl
+fi
+
+if [ -f /usr/bin/colordiff ]; then
+    # requires colordiff package
+    alias diff='colordiff'
+fi
+
+# the -G0 fixes the ligature problem.
+alias dvips='dvips -Ppdf -G0'
+
+# if [ -f $HOME/.config/mc/skins/elite_commander.ini ]; then
+#     # set midnight commander skin
+#     alias mc='mc -S elite_commander'
+# fi
+
+if [ -f $HOME/.moc/themes/moc-orpheus ]; then
+    # set moc player theme
+    alias mocp='mocp -T moc-orpheus'
+fi
+
+# prompt before overwrite (i), verbose (v):
+alias cp='cp -vi'
+alias mv='mv -vi'
+alias rm='rm -v'
+alias cd..='cd ..'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+
+# färgning av grep
+export GREP_COLOR="1;33"            #variabel för färg av grep-träffarna
+alias grep='grep --color=auto -n'   #skriv ut radnummer
+
+# modified commands
+ # alias df='df -h'
+ # alias du='du -c -h'
+ # alias mkdir='mkdir -p -v'
+alias nano='nano -w'
+alias ping='ping -c 5'
+
+# new commands
+alias da='date "+%A, %B %d, %Y [%T]"'
+alias du1='du --max-depth=1'
+alias hist='history | grep $1'      # requires an argument
+alias openports='netstat --all --numeric --programs --inet'
+alias pg='ps -Af | grep $1'         # requires an argument
+
+# privileged access
+if [ $UID -ne 0 ]; then
+    alias sudo='sudo '
+    alias scat='sudo cat'
+    alias svim='sudo vim'
+    alias root='sudo su'
+    alias sless='sudo less'
+    alias reboot='sudo reboot'
+    alias halt='sudo halt'
+fi
+
+# ls
+alias ls='ls --color=auto'          # eller: --color=always
+eval $(dircolors -b)                # visa brutna länkar som röda med ls, mm.
+alias lr='ls -R'                    # recursive ls
+alias ll='ls -l --group-directories-first'
+alias la='ll -A'
+alias lx='ll -BX'                   # sort by extension
+alias lz='ll -rS'                   # sort by size
+alias lt='ll -rt'                   # sort by date
+alias lm='la | more'
+alias lsa='ls -ld .*'               # list only file beginning with "."
+
+
+# Egna alias:
+#alias usb='sudo mount /dev/sdb1 /media/disk'
+alias cputemp='acpi -t'
+#alias cputemp='cat /proc/acpi/thermal_zone/THM0/temperature'
+
+# för att wicd 1.7.0 är fuckat
+#alias wicd-curses='wicd-curses; clear'
+
+#alias mplayer='mplayer -stop-xscreensaver'
+alias mplayer='mplayer -msgcolor -mixer-channel Master -nolirc'
+alias makeplaylist='find -maxdepth 1 -type f -iname \*.mp3 -o -iname \*.flac -o -iname \*.ogg -o -iname \*.wav -o -iname \*.aac | sort > playlist'
+
+
+alias cpu='ps aux | sort -k 3,3 | tail '
+alias mem='ps aux | sort -k 4,4 | tail '
+alias psp='ps aux | grep -v grep | grep '
+alias pst='ps -eww f'
+
+ # safety features
+ # alias chown='chown --preserve-root'
+ # alias chmod='chmod --preserve-root'
+ # alias chgrp='chgrp --preserve-root'
+
+#Färgning av man-pages i less.
+man() {
+    env \
+        LESS_TERMCAP_mb=$(printf "\e[1;37m") \
+        LESS_TERMCAP_md=$(printf "\e[1;37m") \
+        LESS_TERMCAP_me=$(printf "\e[0m") \
+        LESS_TERMCAP_se=$(printf "\e[0m") \
+        LESS_TERMCAP_so=$(printf "\e[1;47;30m") \
+        LESS_TERMCAP_ue=$(printf "\e[0m") \
+        LESS_TERMCAP_us=$(printf "\e[0;36m") \
+        man "$@"
+
+ # Färgerna i Debian (röd och grön)
+ #     LESS_TERMCAP_mb=$(printf "\e[1;31m") \
+ #     LESS_TERMCAP_md=$(printf "\e[1;31m") \
+ #     LESS_TERMCAP_so=$(printf "\e[1;44;33m") \
+ #     LESS_TERMCAP_us=$(printf "\e[1;32m") \
+}
+
+
+
+
+#PRAKTISKA FUNKTIONER:
+#=====================
+
+#extract easely:
+if [ -f /usr/bin/atool ]; then
+    #use atools "aunpack" since it is awesome.
+    alias extract='aunpack'
+else
+    #extract anything! (extract file)
+    function extract(){
+        if [ -f $1 ] ; then
+            case $1 in
+                *.tar.bz2)    tar xjf $1        ;;
+                *.tar.gz)     tar xzf $1        ;;
+                *.tar.Z)      tar xzf $1        ;;
+                *.bz2)        bunzip2 $1        ;;
+                *.rar)        unrar x $1        ;;
+                *.gz)         gunzip $1         ;;
+                *.jar)        unzip $1          ;;
+                *.tar)        tar xf $1         ;;
+                *.tbz2)       tar xjf $1        ;;
+                *.tgz)        tar xzf $1        ;;
+                *.zip)        unzip $1          ;;
+                *.Z)          uncompress $1     ;;
+                *.xz)         unxz $1           ;;
+                *.7z)         7z x $1           ;;
+                *.exe)        cabextract $1     ;;
+                *.rar)        rar x $1          ;;
+                *)            echo "'$1' cannot be extracted via extract()" ;;
+                #NOTE: osäker på om 7z är rätt, testa!
+
+            esac
+        else
+            echo "'$1' is not a valid file"
+        fi
+    }
+fi
+
+ # Filenames to lowercase. Ex.. lowercase * = All file in the current dir.
+function lowercase() {
+    for file ; do
+        filename=${file##*/}
+        case "$filename" in
+            */*) dirname==${file%/*} ;;
+            *) dirname=.;;
+        esac
+        nf=$(echo $filename | tr A-Z a-z)
+        newname="${dirname}/${nf}"
+        if [ "$nf" != "$filename" ]; then
+            mv "$file" "$newname"
+            echo "lowercase: $file --> $newname"
+        else
+            echo "lowercase: $file not changed."
+        fi
+    done
+}
+
+#Funktion för anteckningar direkt från kommandoraden
+nn() {
+    local NOTE_FILE=$HOME/.notes
+    #if file doesn't exist, create it
+    [[ -f "$NOTE_FILE" ]] || touch "$NOTE_FILE"
+
+    #no arguments, edit file
+    if [[ -z "$1" ]]; then
+        vim "+set number" "$NOTE_FILE"
+    elif (( $1 )); then tail -"$1" "$NOTE_FILE"
+    elif [[ "$1" == "-s" ]]; then /bin/grep -E --color=always -i -C 1 "$2" "${NOTE_FILE}"
+    elif [[ "$1" == "-h" || $1 == "--help" ]]; then
+        printf "nn [options|note]: Make quick notes\n"
+        printf "Options: <note>\t\twrite <note> to '${NOTE_FILE}'\n"
+        printf "\t\t\tshow '${NOTE_FILE}'\n"
+        printf "\t<number>\tshow last <number> lines of '${NOTE_FILE}'\n"
+        printf "\t-s <regex>\tsearch '${NOTE_FILE}' for <regex>\n"
+    #append all arguments to file
+    else
+        echo ">> '$@'" >> "$NOTE_FILE"
+    fi
+}
+
+
+#clock - A bash clock that can run in your terminal window.
+clock () {
+    while true;do clear;echo "===========";date +"%r";echo "===========";sleep 1;done
+}
+
+#make dir and the go there
+function mkcd(){    mkdir "$1" && cd "$1"; }
+
+# go to dir, run ls
+function cdl (){ cd $1 && ls; }
+
+#konvertera tal mellan decimal och hex
+function dec(){     printf "%d\n" $1; }
+function hex(){     printf "0x%08x\n" $1; }
+
+#funkar bara för tarning av en (1) fil
+function mktar(){   tar vczf "${1%%/}.tar.gz" "${1%%/}/"; }
+
+#bu - Back Up a file. Usage "bu filename.txt"
+function bu (){ cp $1 ${1}-`date +%Y%m%d%H%M`.backup ; }
+
+#Arch specific:
+if [ -f /etc/arch-release ]; then
+    # coloured pacman output
+    function pacsearch () {
+        echo -e "$(pacman -Ss $@ | sed \
+     -e 's#core/.*#\\033[1;31m&\\033[0;37m#g' \
+     -e 's#extra/.*#\\033[0;32m&\\033[0;37m#g' \
+     -e 's#community/.*#\\033[1;35m&\\033[0;37m#g' \
+     -e 's#^.*/.* [0-9].*#\\033[0;36m&\\033[0;37m#g' )"
+    }
+
+fi
+
+
+
+
+#NYTT:
+#-----
+#färgdefinitioner: (verkar som att man kan byta ut '\e' mot '\033')
+txtblk='\e[0;30m' # Black - Regular
+txtred='\e[0;31m' # Red
+txtgrn='\e[0;32m' # Green
+txtylw='\e[0;33m' # Yellow
+txtblu='\e[0;34m' # Blue
+txtpur='\e[0;35m' # Purple
+txtcyn='\e[0;36m' # Cyan
+txtwht='\e[0;37m' # White
+bldblk='\e[1;30m' # Black - Bold
+bldred='\e[1;31m' # Red
+bldgrn='\e[1;32m' # Green
+bldylw='\e[1;33m' # Yellow
+bldblu='\e[1;34m' # Blue
+bldpur='\e[1;35m' # Purple
+bldcyn='\e[1;36m' # Cyan
+bldwht='\e[1;37m' # White
+unkblk='\e[4;30m' # Black - Underline
+undred='\e[4;31m' # Red
+undgrn='\e[4;32m' # Green
+undylw='\e[4;33m' # Yellow
+undblu='\e[4;34m' # Blue
+undpur='\e[4;35m' # Purple
+undcyn='\e[4;36m' # Cyan
+undwht='\e[4;37m' # White
+bakblk='\e[40m'   # Black - Background
+bakred='\e[41m'   # Red
+badgrn='\e[42m'   # Green
+bakylw='\e[43m'   # Yellow
+bakblu='\e[44m'   # Blue
+bakpur='\e[45m'   # Purple
+bakcyn='\e[46m'   # Cyan
+bakwht='\e[47m'   # White
+txtrst='\e[0m'    # Text Reset (no color)
+# exempel: PS1="\[$txtblu\]foo\[$txtred\] bar\[$txtrst\] baz : "
