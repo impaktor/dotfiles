@@ -76,7 +76,6 @@
     (setf AT_HOME nil)
     (setf AT_HOME t))
 
-
 ;;;; Functions ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; from http://en.wikipedia.org/wiki/User:Gwern/.stumpwmrc
@@ -164,31 +163,82 @@ then run the command synchronously and collect the output."
 
 ;;;; Key-bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; change the prefix key to something else XXX
-;;(set-prefix-key (kbd "C-<"))
 
-;;Windows key. (always use this for window managers)
-(set-prefix-key (kbd "s-q"))
+;; PREFIX KEY
+;; ==========
+;; Windows key is prefix key. (always use this for all window managers!)
 
-;; lock screen:
-(define-key *root-map* (kbd "L")   "exec xscreensaver-command -lock")
+;; ;; Old version. s=windows key
+;; (set-prefix-key (kbd "s-q"))
+;; (define-key *top-map* (kbd "s-X")   "eval")
+;; (define-key *top-map* (kbd "s-x")   "colon")
+;; (define-key *root-map* (kbd "M-x")   "colon")
 
-(define-key *root-map* (kbd "c")   "conkeror")
-(define-key *root-map* (kbd "t")   "term")
-(define-key *root-map* (kbd "T")   "tmux")
+;; new version: bind F20 to windows key
+(run-shell-command "xmodmap -e \"keycode 133 = F20\"")
+(run-shell-command "xmodmap -e \"clear Mod4\"")
+(set-prefix-key (kbd "F20"))
+
+
+;; TOP LEVEL KEY MAP
+;; =================
+;; Some top-level key-maps (do not require any prefix key) to make it
+;; less obtrusive, and kinder to beginners (and behave similar to other WM's):
+(define-key *top-map* (kbd "M-F2")         "dmenu")
+(define-key *top-map* (kbd "M-F4")         "delete")
+(define-key *top-map* (kbd "M-C-Right")    "gnext")
+(define-key *top-map* (kbd "M-C-Left")     "gprev")
+(define-key *top-map* (kbd "M-C-S-Right")  "gnext-with-window")
+(define-key *top-map* (kbd "M-C-S-Left")   "gprev-with-window")
+(define-key *top-map* (kbd "M-TAB")        "pull-hidden-next")
+(define-key *top-map* (kbd "M-RET")        "fullscreen")
+
+;; Make M-C-number switch to group:
+(dotimes (i 10)
+  (unless (eq i 0) ; don't use 0
+    (define-key *top-map* (kbd (format nil "M-C-~a" i)) (format nil "gselect ~a" i))))
+
+;; Make M-C-S-number move window to group:
+(dotimes (i 10)
+  (unless (eq i 0) ; don't use 0
+    (define-key *top-map* (kbd (format nil "M-C-S-~a" i)) (format nil "gmove ~a" i))))
+
+(cond (AT_HOME
+       (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 2dB+ >/dev/null")
+       (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 2dB- >/dev/null")))
 
 (if (not AT_HOME)
     ;;C-z doesn't seem to work without this at work computer
     (define-key *top-map* (kbd "C-z")   "send-escape"))
 
-;;Use windows meta key:
-(define-key *top-map* (kbd "s-c")   "conkeror")
-(define-key *top-map* (kbd "s-t")   "term")
-(define-key *top-map* (kbd "s-e")   "emacs")
+;; ROOT LEVEL KEY MAP
+;; ==================
+;; now specify the key bindings one _should_ use (requires prefixing)
+;; insted of the top-level ones, which are only there for beginners,
+;; etc.
+(define-key *root-map* (kbd "TAB")     "pull-hidden-next")
+(define-key *root-map* (kbd "F2")      "dmenu")
+(define-key *root-map* (kbd "F4")      "delete")
+(define-key *root-map* (kbd "n")       "gnext")
+(define-key *root-map* (kbd "p")       "gprev")
+(define-key *root-map* (kbd "q")       "fselect")  ;; like tmux
+;; (define-key *top-map* (kbd "M-C-g")         "grouplist")
+;; (define-key *top-map* (kbd "M-C-w")         "windowlist")
+;; (define-key *top-map* (kbd "s-RET")         "fullscreen")
 
-;; (define-key *top-map* (kbd "s-x")   "colon")
-;; (define-key *top-map* (kbd "s-X")   "eval")
+;;Selecting frames:
+(define-key *root-map* (kbd "Up")      "move-focus up")
+(define-key *root-map* (kbd "Left")    "move-focus left")
+(define-key *root-map* (kbd "Down")    "move-focus down")
+(define-key *root-map* (kbd "Right")   "move-focus right")
 
+;; push the window in the adjacent frame
+(define-key *root-map* (kbd "S-Up")    "move-window up")
+(define-key *root-map* (kbd "S-Left")  "move-window left")
+(define-key *root-map* (kbd "S-Down")  "move-window down")
+(define-key *root-map* (kbd "S-Right") "move-window right")
+(define-key *root-map* (kbd "Delete")  "repack-window-numbers")
+(define-key *root-map* (kbd "I")       "show-window-properties")
 
 ;; splitting of screen (stumpwm:vsplit = tmux:hsplit, i.e. reversed!)
 (define-key *root-map* (kbd "s")   "vsplit")
@@ -206,62 +256,21 @@ then run the command synchronously and collect the output."
 (define-key *groups-map* (kbd "G") "vgroups")
 ;;(define-key *groups-map* (kbd "G") "groups")  ;;pointless if %g in mode line
 
-;;more emacsy
-(define-key *root-map* (kbd "M-x")   "colon")
-
 ;; make l behave like "
 (define-key *root-map*   (kbd "l") "windowlist")
 (define-key *groups-map* (kbd "l") "grouplist")
 
-;;like tmux:
-(define-key *root-map* (kbd "q")   "fselect")
-
-(cond (AT_HOME
-       (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 2dB+ >/dev/null")
-       (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 2dB- >/dev/null")))
-
-;; Some top-level key-maps to make it less obtrusive (and behave similar to other WM's):
-;; (define-key *top-map* (kbd "M-F2")         "dmenu")
-;; (define-key *top-map* (kbd "M-F4")         "delete")
-(define-key *top-map* (kbd "s-F2")         "dmenu")
-(define-key *top-map* (kbd "s-F4")         "delete")
-(define-key *top-map* (kbd "M-C-Right")    "gnext")
-(define-key *top-map* (kbd "M-C-Left")     "gprev")
-(define-key *top-map* (kbd "s-n")          "gnext")
-(define-key *top-map* (kbd "s-p")          "gprev")
-(define-key *top-map* (kbd "M-C-S-Right")  "gnext-with-window")
-(define-key *top-map* (kbd "M-C-S-Left")   "gprev-with-window")
-;; (define-key *top-map* (kbd "M-C-g")        "grouplist")
-;; (define-key *top-map* (kbd "M-C-w")        "windowlist")
-(define-key *top-map* (kbd "s-TAB")        "pull-hidden-next")
-(define-key *top-map* (kbd "s-RET")        "fullscreen")
-;; (define-key *top-map* (kbd "M-RET")        "fullscreen")
-
-;;Selecting frames: TODO: när jag bytt root till s ändra till *root-map*
-(define-key *top-map* (kbd "s-Up")        "move-focus up")
-(define-key *top-map* (kbd "s-Left")      "move-focus left")
-(define-key *top-map* (kbd "s-Down")      "move-focus down")
-(define-key *top-map* (kbd "s-Right")     "move-focus right")
-
-;; push the window in the adjacent frame
-(define-key *root-map* (kbd "S-Up")        "move-window up")
-(define-key *root-map* (kbd "S-Left")      "move-window left")
-(define-key *root-map* (kbd "S-Down")      "move-window down")
-(define-key *root-map* (kbd "S-Right")     "move-window right")
-(define-key *root-map* (kbd "Delete")      "repack-window-numbers")
-(define-key *root-map* (kbd "I")           "show-window-properties")
-
+;; keybinding to start programs
+(define-key *root-map* (kbd "e")   "emacs")
+(define-key *root-map* (kbd "t")   "term")
+(define-key *root-map* (kbd "L")   "exec xscreensaver-command -lock")
+(define-key *root-map* (kbd "c")   "conkeror")
+(define-key *root-map* (kbd "T")   "tmux")
 
 ;; Make M-C-number switch to group:
 (dotimes (i 10)
   (unless (eq i 0) ; don't use 0
-    (define-key *top-map* (kbd (format nil "M-C-~a" i)) (format nil "gselect ~a" i))))
-
-;; Make M-C-S-number move window to group:
-(dotimes (i 10)
-  (unless (eq i 0) ; don't use 0
-    (define-key *top-map* (kbd (format nil "M-C-S-~a" i)) (format nil "gmove ~a" i))))
-
+    (define-key *root-map* (kbd (format nil "~a" i)) (format nil "gselect ~a" i))))
 
 
 ;;;; Window placement rules  ;;;;;;;;;;;;;;;;;;;;;
@@ -330,7 +339,6 @@ then run the command synchronously and collect the output."
 (push '(:title "Gnuplot") stumpwm:*deny-raise-request*)
 
 
-
 ;;;; Misc ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; debugging (look at ".xsession-errors"), 0 (off) - 10 (on)
@@ -394,9 +402,6 @@ then run the command synchronously and collect the output."
 (setf *maxsize-border-width*   BORDER-WIDTH)
 ;; The width in pixels given to the borders of transient or pop-up windows.
 (setf *transient-border-width* BORDER-WIDTH)
-
-
-
 
 
 ;;;; The Mode Line ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -489,10 +494,10 @@ then run the command synchronously and collect the output."
     ("System Tools"
      ("File Manager"      "urxvtcd -e mc")
      ("Terminal Server"   "tsclient")
-                                        ; Turn on "Enable window manager's key bindings" for prefix key to
-                                        ; be passed seamlessly (when *not* in full screen).
-                                        ; Toggle between full screen and not full screen using
-                                        ; `Ctrl-Alt-Enter'.
+     ;; Turn on "Enable window manager's key bindings" for prefix key to
+     ;; be passed seamlessly (when *not* in full screen).
+     ;; Toggle between full screen and not full screen using
+     ;; `Ctrl-Alt-Enter'.
 
      ;; > In the case of Rdesktop you have to launch the app with the option
      ;; > '-K' so Stump can retain control over the key combinations that you
