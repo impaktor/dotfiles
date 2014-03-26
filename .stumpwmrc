@@ -411,18 +411,17 @@ then run the command synchronously and collect the output."
 (cond
   (AT_HOME
    ;(set-contrib-dir "/usr/share/stumpwm")
-   (load-module "mpd")
+   ;(load-module "mpd")
    (load-module "aumix")
    ;(load "~/usr/src/stumpwm/contrib/wicd.lisp")
    )
   (t
    (load "~/usr/src/stumpwm/contrib/net.lisp")
    (load "~/usr/src/stumpwm/contrib/aumix.lisp")
-   (load "~/usr/src/stumpwm/contrib/amixer.lisp")
-   (load "~/usr/src/stumpwm/contrib/mpd.lisp")))
+   (load "~/usr/src/stumpwm/contrib/amixer.lisp")))
 
-   (load "~/usr/src/stumpwm/contrib/cpu.lisp")
-   (load "~/usr/src/stumpwm/contrib/mem.lisp")
+(load "~/usr/src/stumpwm/contrib/cpu.lisp")
+(load "~/usr/src/stumpwm/contrib/mem.lisp")
 
 
 ;; C-< N a = add, r = remove
