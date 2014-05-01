@@ -54,6 +54,8 @@ alias cemacs="emacsclient -a \"\""
 if [ -f /etc/SuSE-release ]; then
     alias nuffe="/usr/local/bin/xudo /sbin/yast2 sw_single"
     export SBCL_HOME=/home/b2/karlf/usr/lib/sbcl
+    # for libassimp which is not installed at work computers for pioneer space sim
+    export LD_LIBRARY_PATH=${HOME}/usr/lib/:${LD_LIBRARY_PATH}
 fi
 
 if [ -f /usr/bin/colordiff ]; then
