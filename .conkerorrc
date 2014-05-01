@@ -238,7 +238,7 @@ define_webjump("mathworld",     "http://mathworld.wolfram.com/search/?query=%s&x
 define_webjump("metalarchives", "http://www.metal-archives.com/search?searchString=%s&type=band_name");
 define_webjump("minecraftwiki", "http://www.minecraftwiki.net/wiki/Minecraft_Wiki");
 define_webjump("pioneerwiki",   "http://pioneerwiki.com/wiki/Pioneer_Wiki");
-define_webjump("pioneerforum",  "http://pioneerspacesim.net/forum");
+define_webjump("pioneerforum",  "http://pioneerspacesim.net/forum/viewforum.php?f=3");
 define_webjump("pioneer",       "http://pioneerspacesim.net/");
 define_webjump("pioneerapi",    "http://eatenbyagrue.org/f/pioneer/codedoc/files/LuaBody-cpp.html");
 define_webjump("pioneergit",    "https://github.com/pioneerspacesim/pioneer");
@@ -272,7 +272,7 @@ define_webjump("bloodharvest",  "http://bloodharvest.se/catalog/");
 define_webjump("dictionary","http://www.thefreedictionary.com/%s");
 define_webjump("synonym",   "http://www.thefreedictionary.com/%s#Thesaurus");
 define_webjump("paste",     "http://paste.pocoo.org/");
-define_webjump("pirate",    "https://thepiratebay.sx/search/%s");
+define_webjump("pirate",    "https://thepiratebay.se/search/%s");
 define_webjump("python",    "http://docs.python.org/search.html?q=%s");
 define_webjump("eol",       "http://eol.org/search?q=%s&ie=UTF-8&search_type=text");
 define_webjump("scroogle",  "http://www.scroogle.org/cgi-bin/nbbw.cgi?Gw=%s");
