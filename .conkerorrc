@@ -46,9 +46,9 @@ interactive("find-url-from-history",
             });
 
 //remember state upon close, and restore if wanted.
-//Note: must close using C-x C-c, not buy using window manager
+//Note: must close using C-x C-c, not by using window manager
 require("session.js");
-session_auto_save_auto_load = "prompt";
+session_auto_save_auto_load = true; // true, false, or "propt"
 
 // we'd like to see the # of buffers being loaded
 add_hook("mode_line_hook", mode_line_adder(loading_count_widget), true);
