@@ -50,6 +50,9 @@ interactive("find-url-from-history",
 require("session.js");
 session_auto_save_auto_load = "prompt";
 
+// prevent conkeror from loosing session memory when opening a-new when following a link.
+session_auto_save_auto_load_fn = session_auto_save_load_window_current;
+
 // we'd like to see the # of buffers being loaded
 add_hook("mode_line_hook", mode_line_adder(loading_count_widget), true);
 
