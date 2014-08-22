@@ -17,7 +17,7 @@ Xcursor.size:  22
 
 URxvt.buffered:        true
 URxvt.geometry:        100x30                   !!Standardstorlek
-URxvt.cursorBlink:     true
+URxvt.cursorBlink:     false
 !URxvt*cursorColor:     #60a0c0
 !URxvt*cursorUnderline: true
 
@@ -38,20 +38,22 @@ URxvt.shading:         40
 URxvt.transparent:     true
 URxvt.depth:           32
 
-URxvt.scrollBar:       false
 URxvt.scrollBar_right: true
+URxvt.scrollBar:       false
 URxvt.scrollColor:     #2F2F33
 URxvt.scrollstyle:     plain             !! rxvt,plain,next or xterm
+
+!hoppa till output endast då jag vill:
+URxvt.scrollTtyKeypress: true
+URxvt.scrollTtyOutput:   false
+URxvt.scrollWithBuffer:  true
+
 URxvt.saveLines:       65536
 
 !scrolla upp/ner en rad med Shift-upp/ner:
 URxvt.keysym.Shift-Up:   command:\033]720;1\007
 URxvt.keysym.Shift-Down: command:\033]721;1\007
 
-!hoppa till output endast då jag vill:
-URxvt.scrollTtyKeypress: true
-URxvt.scrollTtyOutput:   false
-URxvt.scrollWithBuffer:  true
 
 !!undvik xft-fonter (långsama, lägg till :antialias=false i slutet),
 !!se /usr/share/fonts/misc/fonts.alias
@@ -101,9 +103,6 @@ URxvt.underlineColor:    #3465A4
 
 URxvt.cutchars:          ()*,<>[]{}|
 URxvt.print-pipe:        cat >/tmp/xxx
-
-
-
 
 !!!!!!!!!!!!!!!!!!!!!!!
 !!       Emacs       !!

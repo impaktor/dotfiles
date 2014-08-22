@@ -46,9 +46,9 @@ interactive("find-url-from-history",
             });
 
 //remember state upon close, and restore if wanted.
-//Note: must close using C-x C-c, not buy using window manager
+//Note: must close using C-x C-c, not by using window manager
 require("session.js");
-session_auto_save_auto_load = "prompt";
+session_auto_save_auto_load = true; // true, false, or "propt"
 
 // prevent conkeror from loosing session memory when opening a-new when following a link.
 session_auto_save_auto_load_fn = session_auto_save_load_window_current;
