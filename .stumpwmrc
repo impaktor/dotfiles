@@ -407,26 +407,22 @@ then run the command synchronously and collect the output."
 ;;;; The Mode Line ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; turn on/off the mode line for the current head only.
 
-
 (cond
   (AT_HOME
-   ;(set-contrib-dir "/usr/share/stumpwm")
-   ;(load-module "mpd")
+   ;; path to where I have the contrib modules
+   ;; https://github.com/stumpwm/stumpwm-contrib
+   (set-contrib-dir "/home/vandelay/usr/src/stumpwm-contrib")
    (load-module "aumix")
-   ;(load "~/usr/src/stumpwm/contrib/wicd.lisp")
+   ;(load-module "mpd")
+   ;;(load "~/usr/src/stumpwm/contrib/wicd.lisp")
    )
   (t
-   (load "~/usr/src/stumpwm/contrib/net.lisp")
-   (load "~/usr/src/stumpwm/contrib/aumix.lisp")
-   (load "~/usr/src/stumpwm/contrib/amixer.lisp")))
+   (set-contrib-dir "/home/b2/karlf/usr/src/stumpwm-contrib")
+   ))
 
-(load "~/usr/src/stumpwm/contrib/cpu.lisp")
-(load "~/usr/src/stumpwm/contrib/mem.lisp")
-
-
-;; C-< N a = add, r = remove
-;;(load "/usr/share/common-lisp/source/stumpwm/contrib/notifications.lisp")
-;;(define-key *root-map* (kbd "N") '*notifications-map*)
+(load-module "mem")
+(load-module "cpu")
+(load-module "net")
 
 (setf *mode-line-background-color* BACKGROUND-COLOR
       *mode-line-foreground-color* FOREGROUND-COLOR
