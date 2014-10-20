@@ -595,10 +595,10 @@ then run the command synchronously and collect the output."
 
 ;; Create groups
 (run-commands
- "grename main"
+ "grename Main"
  "term"
- "gnewbg emacs"
- "gnewbg net")
+ "gnewbg Emacs"
+ "gnewbg Net")
 
 ;; (if AT_HOME
 ;;  (run-shell-command "urxvtcd -name tmux-torrent -e torrent.sh"))
