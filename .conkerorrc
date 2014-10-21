@@ -245,6 +245,7 @@ define_webjump("pioneerforum",  "http://pioneerspacesim.net/forum/viewforum.php?
 define_webjump("pioneer",       "http://pioneerspacesim.net/");
 define_webjump("pioneerapi",    "http://eatenbyagrue.org/f/pioneer/codedoc/files/LuaBody-cpp.html");
 define_webjump("pioneergit",    "https://github.com/pioneerspacesim/pioneer");
+define_webjump("pioneertrans",  "https://www.transifex.com/projects/p/pioneer/");
 define_webjump("smbc",          "http://www.smbc-comics.com/");
 define_webjump("smhi",          "http://www.smhi.se/vadret/vadret-i-sverige/land/fiveDaysForecast.do?geonameid=2693678");
 define_webjump("seb",           "http://www.seb.se");
@@ -267,6 +268,10 @@ define_webjump("hackernews",    "http://www.google.com/search?q=site:news.ycombi
 define_webjump("recordheaven",  "http://www.recordheaven.net/");
 define_webjump("bloodharvest",  "http://bloodharvest.se/catalog/");
 
+define_webjump("sds",           "http://www.sydsvenskan.se/");
+define_webjump("svd",           "http://svd.se/");
+define_webjump("dn",            "http://www.dn.se/");
+define_webjump("di",            "http://www.di.se/");
 
 
 
