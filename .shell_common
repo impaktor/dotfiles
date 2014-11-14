@@ -4,10 +4,6 @@
 export XEDITOR="emacsclient -nw -a \"\""
 export EDITOR="emacsclient -nw -a \"\""
 
-# har installerat lite lokala paket för coursera-dl här:
-PYTHONPATH=$HOME"/usr/local/lib/python2.7/site-packages/"
-export PYTHONPATH
-
 if [ -n "$DISPLAY" ]; then
     export BROWSER=conkeror
 fi
