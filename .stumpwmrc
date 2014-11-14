@@ -621,6 +621,8 @@ then run the command synchronously and collect the output."
 
 
 
+(load-module "numpad-layouts")
+(numpad-layouts:set-numpad-layout 'se)
 
 ;; kör i emacs: M-x slime-connect
 
