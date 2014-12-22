@@ -278,8 +278,10 @@ define_webjump("svd",           "http://svd.se/");
 define_webjump("dn",            "http://www.dn.se/");
 define_webjump("di",            "http://www.di.se/");
 
-
-
+define_webjump("s", "https://www.startpage.com/do/search",
+    $post_data = [["query", "%s"], ["cat", "web"],
+                  ["cmd", "process_search"], ["language", "english"],
+                  ["engine0", "v1all"], ["abp", "-1"]]);
 
 //use free dictionary instead:
 define_webjump("dictionary","http://www.thefreedictionary.com/%s");
