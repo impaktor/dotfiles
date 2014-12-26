@@ -245,7 +245,8 @@ define_webjump("pioneerwiki",   "http://pioneerwiki.com/wiki/Pioneer_Wiki");
 define_webjump("pioneerforum",  "http://pioneerspacesim.net/forum/viewforum.php?f=3");
 define_webjump("pioneer",       "http://pioneerspacesim.net/");
 define_webjump("pioneerapi",    "http://eatenbyagrue.org/f/pioneer/codedoc/files/LuaBody-cpp.html");
-define_webjump("pioneergit",    "https://github.com/pioneerspacesim/pioneer");
+define_webjump("pioneergit",    "https://github.com/pioneerspacesim/pioneer/issues/%s",
+               $alternative="https://github.com/pioneerspacesim/pioneer");
 define_webjump("pioneertrans",  "https://www.transifex.com/projects/p/pioneer/");
 define_webjump("pioneertweet",  "https://twitter.com/pioneerspacesim/");
 define_webjump("pioneerssc",    "http://spacesimcentral.com/ssc/forum/23-pioneer/");
