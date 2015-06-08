@@ -19,11 +19,7 @@
 # http://www.bash2zsh.com/
 # http://grml.org/zsh/zsh-lovers.html
 
-
-#Don't include "/" as a word character. Makes C-w better on paths.
-export WORDCHARS="*?_-.[]~=&;export%^(){}<>"
-
-# Lines configured by zsh-newuser-install
+# # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=5000
 SAVEHIST=10000
@@ -94,13 +90,10 @@ setopt appendhistory
 # #write after each command
 # setopt inc_append_history
 
-#supposedly fontlock when printing the hist file:
-setopt hist_fcntl_lock
-
 #when saving hist, remove older duplication of more recent comands.
 setopt hist_ignore_all_dups
 
-#when saveing, ignore older commands that duplicate newer ones.
+#when saving, ignore older commands that duplicate newer ones.
 setopt hist_save_no_dups
 
 #puts timestamps in the history
@@ -261,9 +254,6 @@ alias -s avi=mpv
 if [ -f ~/.shell_common ]; then
     . ~/.shell_common
 fi
-
-export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
-export COWPATH=$HOME/usr/src/cow:/usr/share/cowsay/cows:$COWPATH
 
 #xdvi autocompleatar till dvi-filer. Ej testad.
 xdvi() { command xdvi ${*:-*.dvi(om[1])} }
