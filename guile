@@ -1,0 +1,18 @@
+;; -*- scheme -*-
+
+;; load readline, save history to variable in GUILE_HISTORY on (exit)
+;; or C-D
+(use-modules (ice-9 readline))
+(activate-readline)
+
+;; time in ms for the bounce of matching paren. Disable
+(readline-set! bounce-parens 0)
+
+;; NEWS Guile 2.0.10
+;; Guile's core reader and printer now support the R7RS |...| notation
+;; for writing symbols with arbitrary characters, as a more portable and
+;; attractive alternative to Guile's native #{...}# notation.  To enable
+;; this notation by default, put one or both of the following in your
+;; ~/.guile:
+; (read-enable  'r7rs-symbols)
+; (print-enable 'r7rs-symbols)

@@ -1,5 +1,5 @@
-!!För att ladda om utan att starta om X:
-!!             xrdb -load ~/.Xresources
+!!To reload without restarting X:
+!! xrdb -load ~/.Xresources
 
 Xcursor*theme: Vanilla-DMZ
 Xcursor.size:  22
@@ -16,7 +16,7 @@ Xcursor.size:  22
 !!!!!!!!!!!!!!!!!!!!!!!
 
 URxvt.buffered:        true
-URxvt.geometry:        100x30                   !!Standardstorlek
+URxvt.geometry:        100x30                   !!Standars size
 URxvt.cursorBlink:     false
 !URxvt*cursorColor:     #60a0c0
 !URxvt*cursorUnderline: true
@@ -24,16 +24,16 @@ URxvt.cursorBlink:     false
 URxvt.urgentOnBell:    false
 URxvt.visualBell:      true
 !!URxvt*borderless:    true
-!!URxvt*tintColor:     #dfdfdf                  !!används ej, fuckar up transparency
+!!URxvt*tintColor:     #dfdfdf                  !!fuckes up transparency
 
-! !! lime-blå-grön-mörk-turkås:
+! !! lime-blue-gree-dark
 ! URxvt.background:     [80]#0e3b5a
 ! URxvt.foreground:     #10FF10
 
 URxvt.background:      black
 URxvt.foreground:      white
 
-!!Darken: 0-100, lighten: -1 -- -100, 35 är ett bra värde
+!!Darken: 0-100, lighten: -1 -- -100, 35 is a good value
 URxvt.shading:         40
 URxvt.transparent:     true
 URxvt.depth:           32
@@ -43,19 +43,19 @@ URxvt.scrollBar:       false
 URxvt.scrollColor:     #2F2F33
 URxvt.scrollstyle:     plain             !! rxvt,plain,next or xterm
 
-!hoppa till output endast då jag vill:
+!jup to output only when I want to
 URxvt.scrollTtyKeypress: true
 URxvt.scrollTtyOutput:   false
 URxvt.scrollWithBuffer:  true
 
 URxvt.saveLines:       65536
 
-!scrolla upp/ner en rad med Shift-upp/ner:
+!scroll up/dwn one line with Shift-up/dwn:
 URxvt.keysym.Shift-Up:   command:\033]720;1\007
 URxvt.keysym.Shift-Down: command:\033]721;1\007
 
 
-!!undvik xft-fonter (långsama, lägg till :antialias=false i slutet),
+!!avoid xft-fonts (slow, add :antialias=false at end),
 !!se /usr/share/fonts/misc/fonts.alias
 URxvt.font:             -misc-fixed-medium-r-normal--15-140-75-75-c-90-iso8859-1
 !!URxvt.font:           xft:inconsolata:pixelsize=15
@@ -84,20 +84,17 @@ URxvt.iso14755: false
 !URxvt.keysym.M-Escape:   perl:keyboard-select:activate
 !URxvt.keysym.M-s:        perl:keyboard-select:search
 
-!!funkar inte:
+!! kaputt:
 !! URxvt*keysym.Home: \033[1~
 !! URxvt*keysym.End:  \033[4~
 
-!!Klickbara länkar erhålls genom att aktivera en
-!!perl-extension. Länkarna blir understrukna och klickbara med den
-!!knapp du väljer (jag väljer musknapp 1 här). Länkarna öppnas i
-!!valfri webbläsare.
-
+!!Clickable (here by mouse 1) underlined links by activating a
+!!perl-extension:
 URxvt.urlLauncher:        elinks
 !!URxvt.urlLauncher:      conkeror
 URxvt*matcher.button: 1
 
-!!Ger färg åt länkarna (två nyanser av blått)
+!! give colour to links, two shades of blue
 URxvt.colorUL:           #86a2be
 URxvt.underlineColor:    #3465A4
 
@@ -397,7 +394,7 @@ xpdf*geometry: 1350x700
 ! URxvt*color14:          #93e0e3
 ! URxvt*color15:          #ffffff
 
-!Nice. lite oliv-matta färger.
+!Nice. olive/low contrast färger.
 ! black
 *color0:                #555753
 *color8:                #202020
