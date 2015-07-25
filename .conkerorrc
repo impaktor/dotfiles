@@ -50,6 +50,9 @@ interactive("find-url-from-history",
 require("session.js");
 session_auto_save_auto_load = true; // true, false, or "propt"
 
+// http://conkeror.org/NoScript
+//require("noscript");
+
 // prevent conkeror from loosing session memory when opening a-new when following a link.
 session_auto_save_auto_load_fn = session_auto_save_load_window_current;
 
@@ -87,16 +90,16 @@ function update_save_path (info) {
 }
 add_hook("download_added_hook", update_save_path);
 
-// stop sites from stealing my keys
-require("key-kill");
-key_kill_mode.test.push(build_url_regexp($domain = "github"));
-key_kill_mode.test.push(/\/\/.*slashdot\.org\//);
-key_kill_mode.test.push(/\/\/.*smbc-comics\.com\//);
-key_kill_mode.test.push(/\/\/.*tradera\.com\//);  // nope.
-key_kill_mode.test.push(/\/\/.*lomography\.com\//);
-key_kill_mode.test.push(/\/\/.*kickstarter\.com\//);
-key_kill_mode.test.push(/\/\/.*dreamincode\.net\//);
-key_kill_mode.test.push(/\/\/.*ncbi\.nlm\.nih\.gov\//);
+// // stop sites from stealing my keys
+// require("key-kill");
+// key_kill_mode.test.push(build_url_regexp($domain = "github"));
+// key_kill_mode.test.push(/\/\/.*slashdot\.org\//);
+// key_kill_mode.test.push(/\/\/.*smbc-comics\.com\//);
+// key_kill_mode.test.push(/\/\/.*tradera\.com\//);  // nope.
+// key_kill_mode.test.push(/\/\/.*lomography\.com\//);
+// key_kill_mode.test.push(/\/\/.*kickstarter\.com\//);
+// key_kill_mode.test.push(/\/\/.*dreamincode\.net\//);
+// key_kill_mode.test.push(/\/\/.*ncbi\.nlm\.nih\.gov\//);
 
 // view source in your editor. (M-x view-source)
 view_source_use_external_editor = false;
@@ -254,10 +257,10 @@ define_webjump("ssc",           "http://spacesimcentral.com/ssc/forum/23-pioneer
 define_webjump("smbc",          "http://www.smbc-comics.com/");
 define_webjump("smhi",          "http://www.smhi.se/vadret/vadret-i-sverige/land/fiveDaysForecast.do?geonameid=2693678");
 define_webjump("seb",           "http://www.seb.se");
-define_webjump("sms",           "http://receive-sms-online.com/%2B46769436229.php");
+define_webjump("sms",           "http://receive-sms-online.com");
 define_webjump("thinkwiki",     "http://www.thinkwiki.org/wiki/Category:Models");
 define_webjump("thep",          "http://cbbp.thep.lu.se/publications/publications.html");
-define_webjump("tradera",       "http://www.tradera.com");
+//define_webjump("tradera",       "http://gamla.tradera.com/finding.mvc/itemlisting?header=true&search=%s", &alternative="http://gamla.tradera.com");
 define_webjump("tv",            "http://www.tv.nu");
 define_webjump("urban",         "http://www.urbandictionary.com/define.php?term=%s");
 define_webjump("valuta",        "http://www.valuta.se");
@@ -338,20 +341,26 @@ function history_clear () {
 interactive("history-clear", "Clear the history.", history_clear);
 
 
-
-
-// GRAPHIC MODE LINE SYMBOLS / ICONS FOR NAVIGATION:
-// -------------------------------------------------
-// load_paths.unshift("chrome://conkeror-contrib/content/");
-// require("mode-line-buttons.js");
-// mode_line_add_buttons(standard_mode_line_buttons, true);
-
-// //Tabs at the top of the page:
-// require('new-tabs');
-
-
-
 // END
 // ---
 //does this print, when starting conkeror from terminal?
 dumpln("Configuration file read to end of line. All is well.");
+
+
+
+// // http://conkeror.org/ExternalPrograms?#shell_command_blind
+// // http://conkeror.org/WritingBrowserObjectCommands
+// // http://conkeror.org/BrowserObjects?highlight=%28browser%29%7C%28object%29
+// interactive("shell-command-mplayer",
+//             "Play url in mplayer",
+//             function (I) {
+//                 var cwd = I.local.cwd;
+//                 var element = yield read_browser_object(I);
+//                 var spec = load_spec(element);
+//                 var uri = load_spec_uri_string(spec);
+//                 var cmd = "mplayer -fs $(youtube-dl -g \"$url\")"; \\ it would be better to use script, b/c of escaping
+//                 shell_command_with_argument_blind(cmd, uri, $cwd = cwd);
+//             },
+//             $browser_object = browser_object_url);
+
+// define_key(content_buffer_normal_keymap, "C-c x", "playVideo", $browser_object = browser_object_links);
