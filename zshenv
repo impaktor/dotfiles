@@ -1,3 +1,4 @@
+# -*- shell-script -*-
 #because zsh in SuSE expands non-unique names!
 setopt no_global_rcs
 
