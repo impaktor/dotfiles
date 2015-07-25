@@ -40,6 +40,10 @@
 ;; change color of help-text / message text?
 ;; defun = ej user visible, annars använd defcommand (har ersatt define-stumpwm-command)
 
+;; FIND ERRORS: Compile the config file using sbcl:
+;; (ql:quickload :stumpwm)
+;; (compile-file ".stumpwmrc")
+
 
 (in-package :stumpwm)
 
@@ -92,7 +96,7 @@
 
 (defcommand conkeror () ()
             "Use conkeror as browser"
-            (run-or-raise "exec conkeror" '(:title "Conkeror")))
+            (run-or-raise "exec conkeror -P default" '(:title "Conkeror default")))
 
 ;;XXX use urxvt-daemon instead of normal urxvt.
 (defcommand term () ()
@@ -407,19 +411,11 @@ then run the command synchronously and collect the output."
 ;;;; The Mode Line ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; turn on/off the mode line for the current head only.
 
-(cond
-  (AT_HOME
-   ;; path to where I have the contrib modules
-   ;; https://github.com/stumpwm/stumpwm-contrib
-   (set-contrib-dir "/home/vandelay/usr/src/stumpwm-contrib")
-   (load-module "aumix")
-   ;(load-module "mpd")
-   ;;(load "~/usr/src/stumpwm/contrib/wicd.lisp")
-   )
-  (t
-   (set-contrib-dir "/home/b2/karlf/usr/src/stumpwm-contrib")
-   ))
+;; path to where I have the contrib modules https://github.com/stumpwm/stumpwm-contrib
+(set-module-dir (pathname-as-directory (concat (getenv "HOME") "/usr/src/stumpwm-contrib")))
 
+;;(load-module "aumix")
+;;(load-module "mpd")
 (load-module "mem")
 (load-module "cpu")
 (load-module "net")
@@ -437,7 +433,7 @@ then run the command synchronously and collect the output."
     (setf *screen-mode-line-format* (list "[%g]  | %c %f %C %t | %M |"))
     (setf *screen-mode-line-format* (list "[%g] | %c %f %C %t | %M | %l <> ")))
 
-;;Try for time&date to the right: (The ^> before %d makes it right-aligned.)
+;; ;;Try for time&date to the right: (The ^> before %d makes it right-aligned.)
 ;; (setf *time-modeline-string* "%Y-%m-%d %a ^B%l:%M^b")
 ;; (setf *screen-mode-line-format* (list "[^B%n^b]%W" "^>[%d]"))
 
@@ -621,8 +617,8 @@ then run the command synchronously and collect the output."
 
 
 
-(load-module "numpad-layouts")
-(numpad-layouts:set-numpad-layout 'se)
+;; (load-module "numpad-layouts")
+;; (numpad-layouts:set-numpad-layout 'se)
 
 ;; kör i emacs: M-x slime-connect
 
