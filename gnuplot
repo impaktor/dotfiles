@@ -32,4 +32,4 @@ set termoption dashed  # have X11 allow dashed lines as well
 choose(n,k) = gamma(n+1) / (gamma(k+1) * gamma(n-k+1))
 binomial(k,p,n) = choose(n,k) * p**k * (1-p)**(n-k)
 poisson(k,lambda) = lambda**k / gamma(k+1) * exp(-lambda)
-gauss(x,mu,sigma) = 1./sqrt(pi*2*sigma) * exp(-(x-mu)**2/(2*sigma**2))
+gauss(x,mu,sigma) = 1./sqrt(pi*2*sigma**2) * exp(-(x-mu)**2/(2*sigma**2))
