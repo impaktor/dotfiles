@@ -1,10 +1,9 @@
 # -*- shell-script -*-
-#because zsh in SuSE expands non-unique names!
-setopt no_global_rcs
-
-#Och eller kör 'zsh -d' från terminalen.
 
 if [ -f /etc/SuSE-release ]; then
+    #because zsh in SuSE expands non-unique names!
+    # setopt no_global_rcs
+    #Och eller kör 'zsh -d' från terminalen.
     export PATH=/nfs/bin:$PATH
 fi
 
