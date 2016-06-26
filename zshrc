@@ -21,8 +21,8 @@
 
 # # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
-HISTSIZE=5000
-SAVEHIST=10000
+HISTSIZE=10000                  # max events stored in internal histlist
+SAVEHIST=50000                  # max events to save in histfile
 PAGER='less'
 
 #use Emacs keybindings
