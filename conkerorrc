@@ -189,7 +189,7 @@ add_hook("download_added_hook", update_save_path);
 // key_kill_mode.test.push(/\/\/.*ncbi\.nlm\.nih\.gov\//);
 
 // view source in your editor. (M-x view-source)
-view_source_use_external_editor = false;
+view_source_use_external_editor = true;
 
 // use emacs as external editor.
 editor_shell_command = "emacsclient -c -a \"\"";

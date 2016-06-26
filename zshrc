@@ -4,7 +4,8 @@
 #
 #resources: http://grml.org/zsh/zsh-lovers.html
 # http://www.rayninfo.co.uk/tips/zshtips.html
-
+# http://reasoniamhere.com/2014/01/11/outrageously-useful-tips-to-master-your-z-shell/
+#
 # * .zshrc    - runs for each new shell(roughly equivalent to .bashrc)
 # * .zprofile - runs only for login shells(like .bash_profile)
 # * .zlogout  - runs on logout
