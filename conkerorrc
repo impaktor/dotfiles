@@ -15,6 +15,16 @@
 // GENERAL CONFIGURATIONS
 //------------------------
 
+// Make font bigger of link hints
+register_user_stylesheet(
+    "data:text/css," +
+        escape(
+            "@namespace url(\"http://www.w3.org/1999/xhtml\");\n" +
+            "span.__conkeror_hint {\n"+
+            "  font-size: 16px !important;\n"+
+            "  line-height: 16px !important;\n"+
+            "}"));
+
 //TEST!:
 //require('daemon');
 //daemon_mode(1);
