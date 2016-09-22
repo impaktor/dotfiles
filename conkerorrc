@@ -2,13 +2,13 @@
    http://emacs-fu.blogspot.com/2010/12/conkeror-web-browsing-emacs-way.html
    http://conkeror.org/ExampleConfigs
 
-   retrojs boklista:
+   retroj's booklist:
    http://www.goodreads.com/user/show/6789591-nibbledtodeathbycats
 
-   när flash stjäler fokus:
+   When something steals focus in conkeror, and C-x C-b/k wont work:
    conkeror -f unfocus
 
-   FC6r att hantera history:
+   To manage history:
    https://github.com/joseph-gay/conkeror-histmark
  */
 
