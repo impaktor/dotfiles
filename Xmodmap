@@ -20,3 +20,18 @@ keycode  65 = space      space      NoSymbol NoSymbol space        space
 
 keycode 166 = Next       NoSymbol   NoSymbol NoSymbol XF86Back     XF86Back
 keycode 167 = Prior      NoSymbol   NoSymbol NoSymbol XF86Forward  XF86Forward
+
+! For optimal kinesis advantage layout:
+!--------------------------------------
+
+! "altGr" + "i", "o" -->  "{", "}"
+keycode 31 = i I i I braceleft NoSymbol
+keycode 32 = o O o O braceright NoSymbol
+
+! altgr + "p" --> "~", asciitilde better than dead_tilde
+keycode 33 = p P p P asciitilde NoSymbol
+
+! altgr + "k" / "l" --> "<" / ">"
+keycode 45 = k K k K less
+keycode 46 = l L l L greater
+
