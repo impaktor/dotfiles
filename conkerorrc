@@ -381,6 +381,7 @@ define_opensearch_webjump("g", "google.xml") // om man har andra alias som börj
 
 define_webjump("eniro",         "http://gulasidorna.eniro.se/hitta:%s");
 define_webjump("karlf",         "http://home.thep.lu.se/~karlf");
+define_webjump("kart",          "http://kart.finn.no/");
 define_webjump("mathworld",     "http://mathworld.wolfram.com/search/?query=%s&x=0&y=0");
 define_webjump("metalarchives", "http://www.metal-archives.com/search?searchString=%s&type=band_name");
 define_webjump("minecraftwiki", "http://www.minecraftwiki.net/wiki/Minecraft_Wiki");
