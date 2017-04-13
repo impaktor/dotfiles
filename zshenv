@@ -12,3 +12,12 @@ export COWPATH=$HOME/usr/src/cow:/usr/share/cowsay/cows:$COWPATH
 
 # #Don't include "/" as a word character. Makes C-w better on paths.
 export WORDCHARS="*?_-.[]~=&;export%^(){}<>"
+
+# Man, I hate nefarious programs (Gimp, firefox, etc.) spawning zombie
+# folders, as a "feature".
+export XDG_DESKTOP_DIR="$HOME/"
+export XDG_DOCUMENTS_DIR="$HOME/dokument"
+export XDG_DOWNLOAD_DIR="$HOME/"
+export XDG_MUSIC_DIR="$HOME/audio/music/"
+export XDG_PICTURES_DIR="$HOME/bilder/"
+export XDG_VIDEOS_DIR="$HOME/dvd/"
