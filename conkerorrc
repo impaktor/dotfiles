@@ -408,6 +408,7 @@ define_webjump("wifi",          "http://192.168.1.254/login.cgi");
 define_webjump("rateyourmusic", "http://rateyourmusic.com/search?searchtype=a&searchterm=%s");
 define_webjump("rottentomatoes","http://www.rottentomatoes.com/search/full_search.php?search=%s");
 define_webjump("xkcd",          "http://www.xkcd.com/");
+define_webjump("scala",         "http://www.scala-lang.org/api/current");
 define_webjump("scheme",        "http://www.schemers.org/Documents/Standards/R5RS/HTML/");
 define_webjump("seekingalpha",  "http://seekingalpha.com/symbol/%s");
 
