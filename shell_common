@@ -46,6 +46,15 @@ alias nwemacs="emacsclient -nw -a \"\""
 #emacs, attach to (or start) running server:
 alias cemacs="emacsclient -a \"\""
 
+# reset my keyboard, when it is acting up, for some reason
+function kinesis() {
+    setxkbmap se
+    xmodmap $HOME/.Xmodmap
+    xmodmap -e "keycode 133=F20"
+    xmodmap -e "clear Mod4"
+}
+
+
 #Suse specific aliases:
 if [ -f /etc/SuSE-release ]; then
     alias nuffe="/usr/local/bin/xudo /sbin/yast2 sw_single"
