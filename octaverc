@@ -1,0 +1,2 @@
+# Sätter denna explicit:
+graphics_toolkit('gnuplot')

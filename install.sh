@@ -11,7 +11,7 @@ dir=~/.dotfiles                    # dotfiles directory
 olddir=~/.dotfiles_old             # old dotfiles backup directory
 
 # list of files/folders to symlink in homedir
-files="bashrc conkerorrc gnuplot guile shell_common stumpwmrc tmux.conf vimrc xinitrc xpdfrc Xmodmap Xresources zshrc zshenv zlogin"
+files="bashrc conkerorrc gnuplot guile shell_common stumpwmrc tmux.conf octaverc vimrc xinitrc xpdfrc Xmodmap Xresources zshrc zshenv zlogin"
 
 ##########
 
