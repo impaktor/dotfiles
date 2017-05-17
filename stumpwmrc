@@ -178,7 +178,7 @@ then run the command synchronously and collect the output."
 ;; (define-key *top-map* (kbd "s-x")   "colon")
 ;; (define-key *root-map* (kbd "M-x")   "colon")
 
-;; new version: bind F20 to windows key
+;; new version: bind F20 to windows key / Super_L
 (run-shell-command "xmodmap -e \"keycode 133 = F20\"")
 (run-shell-command "xmodmap -e \"clear Mod4\"")
 (set-prefix-key (kbd "F20"))

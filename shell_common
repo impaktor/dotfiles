@@ -50,6 +50,7 @@ alias cemacs="emacsclient -a \"\""
 function kinesis() {
     setxkbmap se
     xmodmap $HOME/.Xmodmap
+    # make Super_L aka Mod4 aka left windows key be "F20":
     xmodmap -e "keycode 133=F20"
     xmodmap -e "clear Mod4"
 }
