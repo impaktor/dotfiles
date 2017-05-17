@@ -1,0 +1,5 @@
+[caps]>[lctrl]
+[delete]>[lalt]
+[rctrl]>[ralt]
+[rwin]>[rctrl]
+[lctrl]>[rwin]
