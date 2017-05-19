@@ -11,6 +11,11 @@ fi
 #don't have long lines in man, just because terminal is big.
 export MANWIDTH=80
 
+# play only audio, useful for youtube etc.
+function no-video-mpv() {
+    mpv --no-video $1
+}
+
 # sudo edit file with root privelege, using emacs in terminal.
 function semacs() {
     filename=$1
