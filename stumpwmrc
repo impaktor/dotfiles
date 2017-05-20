@@ -348,10 +348,14 @@ then run the command synchronously and collect the output."
 ;; debugging (look at ".xsession-errors"), 0 (off) - 10 (on)
 ;;(setf stumpwm::*debug-level* 0)
 
-;;move mouse from focused window: (TODO: only if not floating!)
+;;move mouse from focused window:
 (defun banish-mouse (from-group to-group)
-  (run-commands "banish"))
+  (if (typep (current-group) 'stumpwm::tile-group)
+      ;; ...or use to-group instead of (current-group), should be same.
+      (run-commands "banish")))
 (add-hook *focus-group-hook* 'banish-mouse)
+
+
 
 (setf
  *startup-message*                 nil
