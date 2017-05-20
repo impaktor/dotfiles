@@ -1,0 +1,14 @@
+1. Enter Power User Mode:
+   - Hold Progm + Shift and tap ESC, (keyboard blinks four times)
+
+2. Enter vfat:
+   - Progm + F1
+   - mount device to somewhere: sudo mount /dev/sdb /mnt
+   - open /mnt/active/qwerty.txt and edit/replace. *NOTE* cp or mv doesn't work!
+
+3. Exit Power user mode:
+   - Hold Progm + Shift and tap ESC, (keyboard blinks twice)
+
+4. Check number of bound keys and that not in Power User Mode (If in PUM, the
+   last line will say so), byt printing staus:
+   - Progm + ESC
