@@ -1,3 +1,4 @@
+;; -*- common-lisp -*-
 ;; (defun mywm ()
 ;;   (run-commands "grename F1")
 ;;   (restore-from-file "~/bin/stump/my.desktop")
@@ -588,6 +589,29 @@ then run the command synchronously and collect the output."
 (define-key *root-map* (kbd ".") "toggle-split")
 
 
+;;;; Swank ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; With swank installed (use quicklisp, rather than Emacs/ELPA), we
+;; can use emacs/swank to debug stump!
+
+(require 'swank)
+(defvar *swank-running* nil)
+(unless *swank-running*
+  (swank:create-server :port 4004 ;; don't use default 4005, instead use its own port.
+                       ;; scotj doens't use these two lines:
+                       :style swank:*communication-style*
+                       :dont-close t)
+  (echo-string (current-screen) "Starting swank. M-x slime-connect RET 4004")
+  (setf *swank-running* t))
+
+
+;; M-x slime-connect, host: 127.0.0.1. port: 4004 (not 4005). You are
+;; now inside the live Lisp image of your WM! E.g. then from slime REPL:
+;; CL-USER> (require :stumpwm)
+;; NIL
+;; CL-USER> (stumpwm:select-window-by-number 1)
+;; NIL
+
 ;;;; Start-up commands ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Get rid of cursor initially
@@ -605,31 +629,10 @@ then run the command synchronously and collect the output."
 
 (run-commands "gselect 1")
 
-;;=============================================
-
-;; ;; Load swank.
-;; ;; *prefix-key* ; swank will kick this off
-;; (load "/usr/share/emacs/site-lisp/slime/swank-loader.lisp")
-;; (swank-loader:init)
-;; (defcommand swank () ()
-;;             (swank:create-server :port 4005
-;;                                  :style swank:*communication-style*
-;;                                  :dont-close t)
-;;             (echo-string (current-screen)
-;;                          "Starting swank. M-x slime-connect RET RET, then (in-package stumpwm)."))
-;; (swank)
-
-
 
 ;; (load-module "numpad-layouts")
 ;; (numpad-layouts:set-numpad-layout 'se)
 
-;; kör i emacs: M-x slime-connect
-
-;; alternativt:
-;; ------------
-;; (asdf:oos 'asdf:load-op 'swank)
-;; (swank:create-server :dont-close t)
 
 ;; This is for the sake of Emacs.
 ;; Local Variables:
