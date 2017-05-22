@@ -2,4 +2,4 @@
 [delete]>[lalt]
 [rctrl]>[ralt]
 [rwin]>[rctrl]
-[lctrl]>[rwin]
+[lctrl]>[lwin]
