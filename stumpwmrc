@@ -208,10 +208,17 @@ then run the command synchronously and collect the output."
   (unless (eq i 0) ; don't use 0
     (define-key *top-map* (kbd (format nil "M-C-S-~a" i)) (format nil "gmove ~a" i))))
 
-(cond (AT_HOME
-       (define-key *top-map* (kbd "XF86AudioMute") "exec amixer sset Master toggle >/dev/null")
-       (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer sset Master 2dB+ >/dev/null")
-       (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer sset Master 2dB- >/dev/null")))
+(defvar PULSEAUDIO nil)
+(defvar ALSA t)
+
+(cond (PULSEAUDIO
+       (define-key *top-map* (kbd "XF86AudioMute") "exec pactl set-sink-mute 0 toggle")
+       (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +2%")
+       (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -2%"))
+      (ALSA
+       (define-key *top-map* (kbd "XF86AudioMute")        "exec amixer -c 0 sset Master toggle >/dev/null")
+       (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer -c 0 sset Master 2dB+ >/dev/null")
+       (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer -c 0 sset Master 2dB- >/dev/null")))
 
 (if (not AT_HOME)
     ;;C-z doesn't seem to work without this at work computer
