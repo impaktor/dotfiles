@@ -7,7 +7,7 @@ if [ -f /etc/SuSE-release ]; then
     export PATH=/nfs/bin:$PATH
 fi
 
-export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$PATH
+export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$HOME/.local/bin:$PATH
 export COWPATH=$HOME/usr/src/cow:/usr/share/cowsay/cows:$COWPATH
 
 # #Don't include "/" as a word character. Makes C-w better on paths.
