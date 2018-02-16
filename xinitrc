@@ -1,6 +1,11 @@
 #!/bin/sh
 # export MOZ_PLUGIN_PATH="~/usr/lib/flashplayer/"
 
+# if on work-Dell, scale up retardedly small screen:
+if [ $(hostname) == "dell" ]; then
+    xrandr --output eDP-1 --scale 0.5x0.5 --output HDMI-1 --auto --right-of eDP-1
+fi
+
 # add executable path
 if [ -f /etc/SuSE-release ]; then
     export PATH=$HOME/bin:$HOME/usr/bin:$HOME/usr/local/bin:/usr/bin:/usr/local/bin:/bin:/usr/games:/usr/X11R6/bin
@@ -26,7 +31,7 @@ xset fp rehash &                   #/
 # #turn off screen blanking & turn on energy star features
 # xset s off
 # xset +dpms                 # enabled by default I think
-xset dpms 0 0 300            # turn off monitor after 5 min.
+xset dpms 0 0 600            # turn off monitor after 5 min.
 # xset r rate 240 120        # until repeat in millisec begins / hz-repeat rate then
 
 # Don't need xscreensaver if using xset +dpms
