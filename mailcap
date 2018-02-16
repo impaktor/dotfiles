@@ -1,0 +1,14 @@
+application/pdf; evince %s;
+application/pdf; okular %s;
+application/pdf; xpdf %s;
+
+application/postscript evince %s;
+
+application/x-dvi xdvi %s;
+
+video/*;         mpv %s > /dev/null;
+
+image/*;         qiv %s;
+image/*;         feh %s;
+
+text/html;       conkeror %s;
