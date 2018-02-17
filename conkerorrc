@@ -379,6 +379,8 @@ define_webjump("G",             "https://encrypted.google.com/search?hl=en&sourc
 define_webjump("git",        "https://github.com/impaktor");
 define_opensearch_webjump("g", "google.xml") // om man har andra alias som börjar på "g"
 
+define_webjump("outlook",       "https://outlook.office.com/owa/");
+
 define_webjump("eniro",         "http://gulasidorna.eniro.se/hitta:%s");
 define_webjump("karlf",         "http://home.thep.lu.se/~karlf");
 define_webjump("kart",          "http://kart.finn.no/");
