@@ -12,6 +12,9 @@
 ;;   (run-commands "exec totem" "emacs" "exec firefox"))
 
 
+;; to export an system wide env. without having to restart stumpwm/x-win:
+;; (SB-POSIX:SETENV "FOO" "bar" 0) ;; note, uses C, so true/false is 1/0
+
 ;; Much stolen from:
 ;; http://stumpwm.svkt.org/cgi-bin/wiki.pl/batman.stumpwmrc
 ;; http://exal.0x2.org/conf/stumpwmrc.html
@@ -323,11 +326,11 @@ then run the command synchronously and collect the output."
 
 (define-frame-preference "Net"
     ;; frame raise lock (lock AND raise == jumpto)
-    (0 t   t :class "Conkeror")
+    (1 t   t :class "Conkeror")
     (0 t   t :instance "tmux-torrent"))
 
 (define-frame-preference "Emacs"
-    (0 t   t :class "Emacs"))
+    (1 t   t :class "Emacs"))
 
 ;;create (floating?) group if it doesn't exist:
 ;; (define-frame-preference "Minecraft"
@@ -335,8 +338,11 @@ then run the command synchronously and collect the output."
 
 
 ;;Deny the Gnuplot window from taking focus unless clicked upon.
+;; prefix-; show-window-properties to see which class a window belongs to
 (push '(:class "Gnuplot") stumpwm:*deny-raise-request*)  ;;on SUSE Gnuplot class is not set!
 (push '(:title "Gnuplot") stumpwm:*deny-raise-request*)
+
+(push '(:class "matplotlib") stumpwm:*deny-raise-request*)
 
 
 ;;;; Misc ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
