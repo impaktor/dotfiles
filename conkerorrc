@@ -36,6 +36,9 @@ require("block-content-focus-change.js");
 // //allow installing extensions (such as adblock):
 session_pref("xpinstall.whitelist.required", false);
 
+// Or twitter thinks my copmuter is a mobile phone.
+session_pref("general.useragent.compatMode.firefox", true)
+
 //set_protocol_handler("magnet", null);
 set_protocol_handler("magnet", make_file("~/usr/bin/magnet.sh"));
 
