@@ -11,6 +11,11 @@
 # * .zlogout  - runs on logout
 # * .zshenv   - holds environmental variables
 
+# Also, this is useful reference, command line tools one should know:
+# http://kadekillary.work/post/cli-4-ds/
+# and on SED:
+# http://www.grymoire.com/Unix/Sed.html#uh-61
+
 # TIP:
 # press Alt+q in the middle of a command you’re typing. This will clear
 # the console prompt and allow you execute another command (like a man
