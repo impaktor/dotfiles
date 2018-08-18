@@ -44,6 +44,12 @@ load_paths.unshift("chrome://conkeror-contrib/content/");
 
 homepage = "about:blank";
 
+// For TOR onion network:
+// session_pref("network.proxy.socks", "localhost");
+// session_pref("network.proxy.socks_port", 9050);
+// session_pref("network.proxy.type", 1);
+// session_pref("network.proxy.socks_remote_dns", true);
+
 // theme_load_paths.push("~/usr/src/conkeror/style");
 // theme_load("mono");
 
@@ -372,6 +378,8 @@ define_webjump("dividend",      "http://www.dividend.com/");
 define_webjump("duckduckgo",    "https://duckduckgo.com/?q=%s");
 define_webjump("ebay",          "http://www.ebay.com/sch/i.html?_nkw=%s",
                $alternative="http://my.ebay.co.uk");
+
+define_webjump("tube",          "https://tube.quinzel.tech")
 
 define_webjump("ebay_gixen",    "http://www.gixen.com/index.php");
 define_webjump("G",             "https://encrypted.google.com/search?hl=en&source=hp&q=%s");
