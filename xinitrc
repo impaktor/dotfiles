@@ -38,6 +38,10 @@ xset dpms 0 0 600            # turn off monitor after 5 min.
 if [ -f /usr/bin/xscreensaver ]; then
     # Kill any running xscreensaver. Then start anew.
     xscreensaver-command -exit; killall xscreensaver 2>/dev/null; xscreensaver -no-splash &
+else
+    # for locking screen (e.g. work place policy requires it)
+    # (much smaller than xscreensaver)
+    xautolock -time 5 -locker slock &
 fi
 xbacklight -set 50         # reduce screen brightness by 50%
 
