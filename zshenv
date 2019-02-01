@@ -22,6 +22,8 @@ export XDG_MUSIC_DIR="$HOME/audio/music/"
 export XDG_PICTURES_DIR="$HOME/bilder/"
 export XDG_VIDEOS_DIR="$HOME/dvd/"
 
+export LC_MESSAGES="en_US.UTF-8"
+
 # http://www.linuxquestions.org/questions/slackware-14/gtk-3-mouse-wheel-doesn%27t-work-on-current-wed-sep-25-a-4175478706/
 export GDK_CORE_DEVICE_EVENTS=1
 

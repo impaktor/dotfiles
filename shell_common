@@ -76,6 +76,11 @@ if [ -f /usr/bin/colordiff ]; then
     alias diff='colordiff'
 fi
 
+if [ -f /usr/bin/ncdu ]; then
+    # requires ncdu package
+    alias ncdu="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
+fi
+
 # the -G0 fixes the ligature problem.
 alias dvips='dvips -Ppdf -G0'
 
