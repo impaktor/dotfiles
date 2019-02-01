@@ -208,12 +208,12 @@ then run the command synchronously and collect the output."
 ;; =================
 ;; Some top-level key-maps (do not require any prefix key) to make it
 ;; less obtrusive, and kinder to beginners (and behave similar to other WM's):
-(define-key *top-map* (kbd "M-F2")         "dmenu")
-(define-key *top-map* (kbd "M-F4")         "delete")
-(define-key *top-map* (kbd "M-C-Right")    "gnext")
-(define-key *top-map* (kbd "M-C-Left")     "gprev")
-(define-key *top-map* (kbd "M-C-S-Right")  "gnext-with-window")
-(define-key *top-map* (kbd "M-C-S-Left")   "gprev-with-window")
+;; (define-key *top-map* (kbd "M-F2")         "dmenu")
+;; (define-key *top-map* (kbd "M-F4")         "delete")
+;; (define-key *top-map* (kbd "M-C-Right")    "gnext") ;; messes with my Doom playing, when straifing!
+;; (define-key *top-map* (kbd "M-C-Left")     "gprev")
+;; (define-key *top-map* (kbd "M-C-S-Right")  "gnext-with-window") ;; use mod + g + P/N instead
+;; (define-key *top-map* (kbd "M-C-S-Left")   "gprev-with-window")
 (define-key *top-map* (kbd "M-TAB")        "next-in-frame")
 (define-key *top-map* (kbd "M-RET")        "fullscreen")
 
@@ -235,7 +235,7 @@ then run the command synchronously and collect the output."
        (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec pactl set-sink-mute 0 false ; pactl set-sink-volume 0 +2%")
        (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec pactl set-sink-mute 0 false ; pactl set-sink-volume 0 -2%"))
       (ALSA
-       (define-key *top-map* (kbd "XF86AudioMute")        "exec amixer -c 0 sset Master toggle >/dev/null")
+       (define-key *top-map* (kbd "XF86AudioMute")        "exec amixer sset Master toggle >/dev/null")
        (define-key *top-map* (kbd "XF86AudioRaiseVolume") "exec amixer -c 0 sset Master 2dB+ >/dev/null")
        (define-key *top-map* (kbd "XF86AudioLowerVolume") "exec amixer -c 0 sset Master 2dB- >/dev/null")))
 
