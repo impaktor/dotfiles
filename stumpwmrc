@@ -74,7 +74,12 @@
 (defparameter SELECT-BG-COLOR  "snow3")
 (defparameter SELECT-FG-COLOR  "grey20")
 
+;; for native stumpwm
 (defparameter FONT "-*-terminus-*-r-*-*-12-120-72-72-c-*-iso8859-*")
+
+;; for external programs dmenu/clipmenu
+(defparameter FONT2 "Terminus:size=10")
+
 ;;(defparameter FONT "-lispm-fixed-medium-r-normal-*-13-*-*-*-*-*-*-*")
 ;;(defparameter FONT "-xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso8859-15")
 
@@ -90,13 +95,24 @@
 (defun cat (&rest strings) "A shortcut for (concatenate 'string foo bar)."
        (apply 'concatenate 'string strings))
 
+;; https://tools.suckless.org/dmenu/
 (defcommand dmenu () ()
             "Make dmenu use color from theme variables"
             (run-shell-command (cat "dmenu_run -nf " FOREGROUND-COLOR
                                     " -nb " BACKGROUND-COLOR
                                     " -sb " SELECT-BG-COLOR
                                     " -sf " SELECT-FG-COLOR
-                                    " -fn \""FONT"\"")))
+                                    " -fn \""FONT2"\"")))
+
+;; https://github.com/cdown/clipmenu
+;; use: systemctl --user enable clipmenud.service
+(defcommand clipmenu () ()
+            "Make clipmenu use color from theme variables, (identical to dmenu)"
+            (run-shell-command (cat "clipmenu -nf " FOREGROUND-COLOR
+                                    " -nb " BACKGROUND-COLOR
+                                    " -sb " SELECT-BG-COLOR
+                                    " -sf " SELECT-FG-COLOR
+                                    " -fn \""FONT2"\"")))
 
 (defcommand conkeror () ()
             "Use conkeror as browser"
@@ -237,6 +253,7 @@ then run the command synchronously and collect the output."
 (define-key *root-map* (kbd "n")       "gnext")
 (define-key *root-map* (kbd "p")       "gprev")
 (define-key *root-map* (kbd "q")       "fselect")  ;; like tmux
+(define-key *root-map* (kbd "y")       "clipmenu")
 ;; (define-key *top-map* (kbd "M-C-g")         "grouplist")
 ;; (define-key *top-map* (kbd "M-C-w")         "windowlist")
 ;; (define-key *top-map* (kbd "s-RET")         "fullscreen")
