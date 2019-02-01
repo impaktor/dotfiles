@@ -1,6 +1,20 @@
 #!/bin/sh
 # export MOZ_PLUGIN_PATH="~/usr/lib/flashplayer/"
 
+# BUG with something regarding imagemagick7's library libmagick6.
+# - imagemagik's "display <image>" works.
+# - opening images (e.g. png's) in emacs crashes emacs.
+# Can be fixed by:
+# a. export MAGICK_OCL_DEVICE=OFF
+# b. or pacman -Rsc ocl-icd
+# c. or build imagemagick with the option --disable-opencl
+# ref:
+# https://www.reddit.com/r/emacs/comments/8rqu4d/emacs_crashes_when_viewing_pdfs/
+# https://debbugs.gnu.org/cgi/bugreport.cgi?bug=31771
+# https://bugs.archlinux.org/task/47864
+
+export MAGICK_OCL_DEVICE=OFF
+
 # if on work-Dell, scale up retardedly small screen:
 if [ $(hostname) == "dell" ]; then
     xrandr --output eDP-1 --scale 0.5x0.5 --output HDMI-1 --auto --right-of eDP-1
@@ -10,7 +24,7 @@ fi
 if [ -f /etc/SuSE-release ]; then
     export PATH=$HOME/bin:$HOME/usr/bin:$HOME/usr/local/bin:/usr/bin:/usr/local/bin:/bin:/usr/games:/usr/X11R6/bin
 else
-    export PATH=$HOME/bin:$HOME/usr/bin:$HOME/usr/local/bin:$PATH
+    export PATH=$HOME/bin:$PATH
 fi
 
 # (nodeadkeys = only press once for ~ ^)

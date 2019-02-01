@@ -48,6 +48,8 @@ function conkeror_open() {
 #emacs no window, attach to (or start) running server:
 alias nwemacs="emacsclient -nw -a \"\""
 
+alias conda="${HOME}/usr/opt/conda/bin/conda"
+
 #emacs, attach to (or start) running server:
 alias cemacs="emacsclient -a \"\""
 

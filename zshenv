@@ -7,7 +7,7 @@ if [ -f /etc/SuSE-release ]; then
     export PATH=/nfs/bin:$PATH
 fi
 
-export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$HOME/.local/bin:$PATH
+export PATH=$HOME/usr/bin:$HOME/usr/local/bin:$HOME/.local/bin:/opt/cuda/bin:$PATH
 export COWPATH=$HOME/usr/src/cow:/usr/share/cowsay/cows:$COWPATH
 
 # #Don't include "/" as a word character. Makes C-w better on paths.
@@ -24,3 +24,5 @@ export XDG_VIDEOS_DIR="$HOME/dvd/"
 
 # http://www.linuxquestions.org/questions/slackware-14/gtk-3-mouse-wheel-doesn%27t-work-on-current-wed-sep-25-a-4175478706/
 export GDK_CORE_DEVICE_EVENTS=1
+
+export SBCL_HOME=/usr/lib/sbcl
