@@ -58,10 +58,10 @@ fi
 #Set cursor theme:
 xsetroot -cursor_name left_ptr &
 
-# Hide cursor if inactive:
-if [ -f /usr/bin/unclutter ]; then
-    unclutter -idle 2 -jitter 1 -root&
-fi
+# Hide cursor if inactive (can cause trouble in OpenTTD, virtual windows, DosBOX):
+# if [ -f /usr/bin/unclutter ]; then
+#     unclutter -idle 2 -jitter 1 -root&
+# fi
 
 xrdb -load ~/.Xresources &
 xmodmap $HOME/.Xmodmap
