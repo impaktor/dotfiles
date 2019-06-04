@@ -367,7 +367,7 @@ define_webjump("trans",         "http://translate.google.com/translate_t#auto|en
 define_webjump("alpha",         "http://www36.wolframalpha.com/input/?i=%s");
 define_webjump("allmusic",      "http://www.allmusic.com/search/artist/%s");
 define_webjump("abebooks",      "http://www.abebooks.com/servlet/SearchResults?kn=%s");
-define_webjump("antikvariat",   "http://www.antikvariat.net");
+define_webjump("antikvariat",   "https://www.antikvariat.net/sv/front?currency=SEK");
 define_webjump("ascii",         "http://www.asciisector.net/forum");
 define_webjump("arch",          "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=%s",
                $alternative="http://www.archlinux.org/");
@@ -441,6 +441,8 @@ define_webjump("sds",           "http://www.sydsvenskan.se/");
 define_webjump("svd",           "http://svd.se/");
 define_webjump("dn",            "http://www.dn.se/");
 define_webjump("di",            "http://www.di.se/");
+
+define_webjump("xxl",            "https://xxl.no/search?q=%s");
 
 define_webjump("unvisit",       "http://unvis.it/%s", $alternative="http://unvis.it/");
 
