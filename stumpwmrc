@@ -118,6 +118,10 @@
             "Use conkeror as browser"
             (run-or-raise "exec conkeror -P default" '(:title "Conkeror default")))
 
+(defcommand lock-screen () ()
+            "Lock screen using slock"
+            (run-shell-command "slock"))
+
 ;;XXX use urxvt-daemon instead of normal urxvt.
 (defcommand term () ()
             "Use urxvt as terminal."
