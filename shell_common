@@ -81,6 +81,12 @@ if [ -f /usr/bin/ncdu ]; then
     alias ncdu="ncdu --color dark -rr -x --exclude .git --exclude node_modules"
 fi
 
+
+# https://github.com/junegunn/fzf
+alias preview="fzf"
+export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(code {})+abort'"
+
+
 # the -G0 fixes the ligature problem.
 alias dvips='dvips -Ppdf -G0'
 

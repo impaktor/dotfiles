@@ -1,4 +1,6 @@
 ;; -*- common-lisp -*-
+;; (ql:update-all-dists)
+
 ;; (defun mywm ()
 ;;   (run-commands "grename F1")
 ;;   (restore-from-file "~/bin/stump/my.desktop")
@@ -75,13 +77,13 @@
 (defparameter SELECT-FG-COLOR  "grey20")
 
 ;; for native stumpwm
+;;(defparameter FONT "-lispm-fixed-medium-r-normal-*-13-*-*-*-*-*-*-*")
+;;(defparameter FONT "-xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso8859-15")
 (defparameter FONT "-*-terminus-*-r-*-*-12-120-72-72-c-*-iso8859-*")
 
 ;; for external programs dmenu/clipmenu
 (defparameter FONT2 "Terminus:size=10")
 
-;;(defparameter FONT "-lispm-fixed-medium-r-normal-*-13-*-*-*-*-*-*-*")
-;;(defparameter FONT "-xos4-terminus-medium-r-normal--14-140-72-72-c-80-iso8859-15")
 
 ;;different set up for home computer and work computer
 (defvar AT_HOME t)
