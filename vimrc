@@ -3,6 +3,10 @@ set enc=utf-8
 set fenc=utf-8
 set termencoding=utf-8
 
+set ignorecase  " do case insensitive search
+
+set noswapfile  " disable swap file
+
 " disable vi compatibility (emulation of old bugs)
 set nocompatible
 
@@ -41,22 +45,21 @@ set number
 set textwidth=75
 
 "The next two options turn on fancy searching:
-:set hlsearch
-:set incsearch
+:set hlsearch  " highlight all search results
+:set incsearch " show incremental search results as you type
 
 
 
 
 "Proper word-wrapping in vim (like in Emacs) (2009-07-27 K.mandla blog),
 "break at hyphen, space, URL: slash, hyphens
-set formatoptions=l                               
+set formatoptions=l
 set lbr
 
-"remap k and j to gk, gj, for moving across wrapped lines. 
+"remap k and j to gk, gj, for moving across wrapped lines.
 nnoremap k gk
 nnoremap j gj
 
 
 "choose theme from ~/.vim/colors/
 colorscheme zenburn
-
