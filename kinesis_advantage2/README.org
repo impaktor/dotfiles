@@ -1,3 +1,4 @@
+* Key remapping
 1. Enter Power User Mode:
    - Hold Progm + Shift and tap ESC, (keyboard blinks four times)
 
@@ -13,3 +14,58 @@
 4. Check number of bound keys and that not in Power User Mode (If in PUM, the
    last line will say so), by printing status:
    - Progm + ESC
+
+* Firmware updates:
+  1. Enter progm + Esc to print out current version (4MB vs 2MB, and if same
+     version as new)
+  2. Download firmware (*.upd file) from kinesis [[https://kinesis-ergo.com/support/advantage2-non-us-versions/][support page]] (non-US version)
+  3. Enter power user mode: progm + Shift + ESC
+  4. Open v-drive: progm+F1
+  5. copy-paste new firmware to the firmware folder and rename to
+     update.upd
+  6. Initiate Firmware Update (program + shift + U). The update process
+     normally takes 10-12 seconds to complete, during which time the keyboard
+     will be inactive. IMPORANT NOTE: Do NOT unplug or type on the keyboard
+     during this step. To test if done, you can tap the “keypad” function key
+     and monitor the LED.
+  7. After 12 seconds, tap the Keypad key to test the keyboard. When the
+     keypad LED illuminates the keyboard is active again.
+  8. Run a Status Report to confirm the new version of firmware was
+     successfully installed.
+  9. If the keyboard does not wake up after 12-15 seconds, perform a Hard
+     Reset (Progm + F9 while plugging it in).
+
+Updaterat:
+Model> Advantage2
+Firmware> 1.0.431.us (4MB), 11/14/2017
+Active layout file> qwerty.txt
+Thumb keys mode> none
+Macro play speed> off=0, slow=1, normal=3, fast=9> 3
+Status report play speed> off=0, slow=1, normal=3, fast=4> 3
+Keyclick status> on
+Toggle tone status> off
+Stored macros> 0
+Keys remapped> 7
+Power user mode> on
+
+Model> Advantage2
+Firmware> 1.0.517.de (4MB), 02/17/2020
+Active layout file> qwerty.txt
+Thumb keys mode> none
+Macro play speed> off=0, slow=1, normal=3, fast=9> 3
+Status report play speed> off=0, slow=1, normal=3, fast=4> 3
+Keyclick status> on
+Toggle tone status> on
+Stored macros> 0
+Keys remapped> 7
+* Note
+  Difference between US and DE/Scandinavian firmware is the following
+  remapping:
+  ```
+  [obrack]>[\]
+  [\]>[obrack]
+  ```
+
+  Effectively swapping "å/Å" <-> "'/*" keys. Updating firmware to
+  DE/Scandinavian fixes it (or adding above code to active/qwerty.txt on
+  keyboard mounted as v-usb-device)
