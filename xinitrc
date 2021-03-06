@@ -59,6 +59,10 @@ else
 fi
 xbacklight -set 50         # reduce screen brightness by 50%
 
+# clipboard manager (with history), using dmenu
+systemctl --user import-environment DISPLAY # know which
+systemctl --user start clipmenud.service
+
 # check if we have music player daemon
 if [ -f /usr/bin/mpd ]; then
     # MPD daemon start (if no other user instance exists)
