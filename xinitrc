@@ -17,7 +17,9 @@ export MAGICK_OCL_DEVICE=OFF
 
 # if on work-Dell, scale up retardedly small screen:
 if [ $(hostname) == "dell" ]; then
-    xrandr --output eDP-1 --scale 0.5x0.5 --output HDMI-1 --auto --right-of eDP-1
+    # doesn't work anymore after update & recompile of stumpwm
+    # xrandr --output eDP-1 --scale 0.5x0.5 --output HDMI-1 --auto --right-of eDP-1
+    xrandr --output eDP1 --scale 0.5x0.5 --output DP3 --scale 0.5x0.5 --right-of eDP1
 fi
 
 # add executable path
@@ -62,6 +64,9 @@ xbacklight -set 50         # reduce screen brightness by 50%
 # clipboard manager (with history), using dmenu
 systemctl --user import-environment DISPLAY # know which
 systemctl --user start clipmenud.service
+
+# reduce blue light from monitor, especially during evening
+# redshift &
 
 # check if we have music player daemon
 if [ -f /usr/bin/mpd ]; then
