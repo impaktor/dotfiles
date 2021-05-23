@@ -173,6 +173,10 @@ then run the command synchronously and collect the output."
             (let ((cmd (concatenate 'string "insert " (get-x-selection))))
               (eval-command cmd)))
 
+(defcommand microphone-toggle-on-off () ()
+            "Toggle microphone on/off"
+            (run-shell-command "pactl set-source-mute 1 toggle"))
+
 ;; ;;This command runs the stumpwm "quit" command, but only if there aren't
 ;; ;;any windows open.
 ;; (defcommand "safequit" () ()
@@ -358,6 +362,16 @@ then run the command synchronously and collect the output."
 ;;create (floating?) group if it doesn't exist:
 ;; (define-frame-preference "Minecraft"
 ;; (0 t   t :title "Minecraft Launcher" :create t))
+
+
+;; pdfpc rule - for 'Default' group
+;;  move to frame '1';
+;;  non-focussing ('nil) the presentation view;
+;;  not only matching (t) the target-group ('Default');
+;;  moving the 'pdfpc' 'presentation' window
+;; FROM: https://babbagefiles.xyz/pdfpc-in-stumpwm/
+(define-frame-preference "Default"
+  (1 nil t :instance "pdfpc" :role "presentation"))
 
 
 ;;Deny the Gnuplot window from taking focus unless clicked upon.
