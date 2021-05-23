@@ -23,7 +23,6 @@
 # magically reappear.
 
 # http://www.bash2zsh.com/
-# http://grml.org/zsh/zsh-lovers.html
 
 # # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -388,6 +387,14 @@ else
     # prompt zefram
 fi
 
+
+# Add compleations not yet included in main vanilla zsh:
+# Note: might want to force rebuild: rm -f ~/.zcompdump; compinit
+fpath=($HOME/usr/src/zsh-completions/src $fpath)
+
+# Add grayed out compleation suggestions as you type
+# trigger end-of-line to accept (e.g. C-e on if using emacs keys)
+source ~/usr/src/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 #------------------------------
