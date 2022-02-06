@@ -368,7 +368,7 @@ define_webjump("emacswiki", "http://www.google.com/cse?cx=004774160799092323420%
 define_webjump("so",            "http://stackoverflow.com/search?q=%s");
 define_webjump("youtube",       "http://www.youtube.com/results?search_query=%s&aq=f", $alternative="http://www.youtube.com/");
 define_webjump("yt",            "http://www.youtube.com/results?search_query=%s&aq=f", $alternative="http://www.youtube.com/");
-define_webjump("imdb",          "http://www.imdb.com/find?q=%s&s=all");
+define_webjump("imdb",          "http://www.imdb.com/find?q=%s&s=all", $alternative="http://www.imdb.com/");
 define_webjump("trans",         "http://translate.google.com/translate_t#auto|en|%s");
 define_webjump("alpha",         "http://www36.wolframalpha.com/input/?i=%s");
 define_webjump("allmusic",      "http://www.allmusic.com/search/artist/%s");
@@ -377,7 +377,7 @@ define_webjump("antikvariat",   "https://www.antikvariat.net/sv/front?currency=S
 define_webjump("ascii",         "http://www.asciisector.net/forum");
 define_webjump("arch",          "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=%s",
                $alternative="http://www.archlinux.org/");
-define_webjump("aur",           "https://aur.archlinux.org/packages.php?O=0&K=%s");
+define_webjump("aur",           "https://aur.archlinux.org/packages?O=0&K=%s", $alternative="https://aur.archlinux.org/");
 define_webjump("bbc",           "http://www.bbc.co.uk/news/world/");
 define_webjump("biblioteket",   "http://biblioteksportalen.lund.se/web/arena/");
 define_webjump("c++",           "http://www.cplusplus.com/search.do?q=%s");
@@ -412,6 +412,7 @@ define_webjump("mathworld",     "http://mathworld.wolfram.com/search/?query=%s&x
 define_webjump("archive",       "https://archive.vn/");
 define_webjump("metalarchives", "http://www.metal-archives.com/search?searchString=%s&type=band_name");
 define_webjump("minecraftwiki", "http://www.minecraftwiki.net/wiki/Minecraft_Wiki");
+define_webjump("norsk",         "https://naob.no/ordbok/%s", $alternative="https://naob.no/ordbok/");
 define_webjump("pioneerwiki",   "http://pioneerwiki.com/wiki/Pioneer_Wiki");
 define_webjump("pioneerwikiadminspecial",   "https://pioneerwiki.com/wiki/Special:SpecialPages");
 define_webjump("pioneerwikiadminversion",   "https://pioneerwiki.com/wiki/Special:Version");
@@ -436,7 +437,7 @@ define_webjump("tv",            "http://www.tv.nu");
 define_webjump("urban",         "http://www.urbandictionary.com/define.php?term=%s");
 define_webjump("valuta",        "http://www.valuta.se");
 define_webjump("wifi",          "http://192.168.1.254/login.cgi");
-define_webjump("rateyourmusic", "http://rateyourmusic.com/search?searchtype=a&searchterm=%s");
+//define_webjump("rateyourmusic", "http://rateyourmusic.com/search?searchtype=a&searchterm=%s", &alternative="http://rateyourmusic.com/");
 define_webjump("rottentomatoes","http://www.rottentomatoes.com/search/full_search.php?search=%s");
 define_webjump("xkcd",          "http://www.xkcd.com/");
 define_webjump("scala",         "http://www.scala-lang.org/api/current");
