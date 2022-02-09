@@ -631,8 +631,10 @@ then run the command synchronously and collect the output."
 
 ;; With swank installed (use quicklisp, rather than Emacs/ELPA), we
 ;; can use emacs/swank to debug stump!
-
+;; install in sbcl: (QL:QUICKLOAD :SWANK)
+;; (if require doesn't work, use ql:quickload or asdf:load-system instead)
 (require 'swank)
+;;(asdf:load-system 'swank)
 (defvar *swank-running* nil)
 (unless *swank-running*
   (swank:create-server :port 4004 ;; don't use default 4005, instead use its own port.
@@ -649,6 +651,7 @@ then run the command synchronously and collect the output."
 ;; NIL
 ;; CL-USER> (stumpwm:select-window-by-number 1)
 ;; NIL
+;; (in-package #:stumpwm)
 
 ;;;; Start-up commands ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
