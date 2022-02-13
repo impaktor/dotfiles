@@ -1,6 +1,11 @@
 #!/bin/sh
 # export MOZ_PLUGIN_PATH="~/usr/lib/flashplayer/"
 
+# If starrtx is giving grief:
+# - Disable auto-start: ~/.zlogin
+# - Disable atuo-tty login: /etc/systemd/system/getty@tty1.service.d/autologin.conf
+# - Check xorg-logs: ~/.local/share/xorg/Xorg.0.log
+
 # BUG with something regarding imagemagick7's library libmagick6.
 # - imagemagik's "display <image>" works.
 # - opening images (e.g. png's) in emacs crashes emacs.
