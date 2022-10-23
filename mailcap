@@ -12,3 +12,5 @@ image/*;         qiv %s;
 image/*;         feh %s;
 
 text/html;       conkeror %s;
+
+x-scheme-handler/mailto; "emacsclient -e '(message-mailto "%u")'"
