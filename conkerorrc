@@ -393,6 +393,7 @@ define_webjump("Duck",          "https://duckduckgo.com/?q=%s", $alternative="ht
 define_webjump("ebay",          "http://www.ebay.com/sch/i.html?_nkw=%s",
                $alternative="http://my.ebay.co.uk");
 
+define_webjump("news",          "https://ground.news")
 define_webjump("tube",          "https://tube.quinzel.tech")
 
 define_webjump("ebay_gixen",    "http://www.gixen.com/index.php");
@@ -432,17 +433,18 @@ define_webjump("seb",           "http://www.seb.se");
 define_webjump("sms",           "http://receive-sms-online.com");
 define_webjump("thinkwiki",     "http://www.thinkwiki.org/wiki/Category:Models");
 define_webjump("thep",          "http://cbbp.thep.lu.se/publications/publications.html");
-//define_webjump("tradera",       "http://gamla.tradera.com/finding.mvc/itemlisting?header=true&search=%s", &alternative="http://gamla.tradera.com");
+//define_webjump("tradera",       "http://gamla.tradera.com/finding.mvc/itemlisting?header=true&search=%s", $alternative="http://gamla.tradera.com");
 define_webjump("tv",            "http://www.tv.nu");
 define_webjump("urban",         "http://www.urbandictionary.com/define.php?term=%s");
 define_webjump("valuta",        "http://www.valuta.se");
 define_webjump("wifi",          "http://192.168.1.254/login.cgi");
-//define_webjump("rateyourmusic", "http://rateyourmusic.com/search?searchtype=a&searchterm=%s", &alternative="http://rateyourmusic.com/");
+define_webjump("rateyourmusic", "http://rateyourmusic.com/search?searchtype=a&searchterm=%s", $alternative="http://rateyourmusic.com/");
 define_webjump("rottentomatoes","http://www.rottentomatoes.com/search/full_search.php?search=%s");
 define_webjump("xkcd",          "http://www.xkcd.com/");
 define_webjump("scala",         "http://www.scala-lang.org/api/current");
 define_webjump("scheme",        "http://www.schemers.org/Documents/Standards/R5RS/HTML/");
 define_webjump("seekingalpha",  "http://seekingalpha.com/symbol/%s");
+define_webjump("qwant",         "https://www.qwant.com/?q=%s", $alternative="https://www.qwant.com/");
 
 define_webjump("hackernews",    "http://www.google.com/search?q=site:news.ycombinator.com+%s",
                $alternative = "http://news.ycombinator.com/");
