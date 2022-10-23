@@ -24,7 +24,8 @@ export MAGICK_OCL_DEVICE=OFF
 if [ $(hostname) == "dell" ]; then
     # doesn't work anymore after update & recompile of stumpwm
     # xrandr --output eDP-1 --scale 0.5x0.5 --output HDMI-1 --auto --right-of eDP-1
-    xrandr --output eDP1 --scale 0.5x0.5 --output DP3 --scale 0.5x0.5 --right-of eDP1
+    xrandr --output eDP1 --scale 0.4x0.4 --output DP3 --scale 0.5x0.5 --right-of eDP1
+    # xrandr -s "1600x900" # --dpi 100
 fi
 
 # add executable path
