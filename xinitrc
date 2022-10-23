@@ -138,18 +138,18 @@ fi
 case $1 in
 #lägg till: xmonad,
     awesome)
-	exec awesome
-	;;
+        exec awesome
+        ;;
     blackbox)
-	exec blackbox
-	;;
+        exec blackbox
+        ;;
     compiz)
         exec compiz-manager
-	;;
+        ;;
     dswm)
         #deep space windowmanager
         exec dswm
-	;;
+        ;;
     dwm)
         # while true; do
         #     xsetroot -name "$( date +"%F %R" )"
@@ -161,48 +161,48 @@ case $1 in
         feh --bg-tile .fluxbox/backgrounds/tiles/dark_tile.jpg
         urxvt&
 
-#	exec dwm
-	exec ~/.skript/dwm_inf.sh
+#       exec dwm
+        exec ~/.skript/dwm_inf.sh
 
-	;;
+        ;;
     enlightenment)
         exec enlightenment_start
-	;;
+        ;;
     fluxbox)
-	exec startfluxbox
-	;;
+        exec startfluxbox
+        ;;
     fvwm2)
-	exec fvwm2
-	;;
+        exec fvwm2
+        ;;
     gnome)
-	exec gnome-session
-	;;
+        exec gnome-session
+        ;;
     icewm)
-	icewmbg &
-	icewmtray &
-	exec icewm
-	;;
+        icewmbg &
+        icewmtray &
+        exec icewm
+        ;;
     ion)
         exec ion
-	;;
+        ;;
     jwm)
         exec jwm
-	;;
+        ;;
     kde)
-	exec startkde
-	;;
+        exec startkde
+        ;;
     lxde)
-	exec startlxde
-	;;
+        exec startlxde
+        ;;
     musca)
-	exec musca
-	;;
+        exec musca
+        ;;
     openbox)
-	exec openbox-session
-	;;
+        exec openbox-session
+        ;;
     ratpoison)
         exec ratpoison
-	;;
+        ;;
     scrotwm)
         feh --bg-scale ~/.fluxbox/backgrounds/krets.png
         exec scrotwm
@@ -211,15 +211,15 @@ case $1 in
         exec stumpwm
         ;;
     wmaker)
-	exec wmaker
-	;;
+        exec wmaker
+        ;;
     xfce4)
-	exec startxfce4
-	;;
+        exec startxfce4
+        ;;
     xmonad)
         #exec xmonad
-	;;
+        ;;
     *)
-	exec $DEFAULT_SESSION
-	;;
+        exec $DEFAULT_SESSION
+        ;;
 esac
