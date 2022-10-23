@@ -3,3 +3,4 @@
 [rctrl]>[ralt]
 [rwin]>[rctrl]
 [lctrl]>[lwin]
+[lalt]>[delete]

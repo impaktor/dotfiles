@@ -7,8 +7,8 @@
    - mount device to somewhere: `sudo mount /dev/sdb /mnt`
    - open `/mnt/active/qwerty.txt` and edit/replace. *NOTE* cp or mv doesn't work!
 
-3. Unmount and exit Power user mode:
-   - `sudo umount /mnt/`
+3. Changes don't take effect, until vdrive is unmounted. Unmount and exit Power user mode:
+   - `sudo umount /mnt/` and/or? (Progm + F2 for unmounting)
    - Hold Progm + Shift and tap ESC, (keyboard blinks twice)
 
 4. Check number of bound keys and that not in Power User Mode (If in PUM, the
@@ -58,6 +58,17 @@ Keyclick status> on
 Toggle tone status> on
 Stored macros> 0
 Keys remapped> 7
+
+Model> Advantage2
+Firmware> 1.0.521.de (4MB), 06/25/2020
+Active layout file> qwerty.txt
+Thumb keys mode> none
+Macro play speed> off=0, slow=1, normal=3, fast=9> 3
+Status report play speed> off=0, slow=1, normal=3, fast=4> 3
+Keyclick status> on
+Toggle tone status> on
+Stored macros> 0
+Keys remapped> 5
 * Note
   Difference between US and DE/Scandinavian firmware is the following
   remapping:
