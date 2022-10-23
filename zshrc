@@ -436,3 +436,5 @@ if command -v pyenv 1>/dev/null 2>&1; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
+# testar att disabla, 2021-09-03, tar lång tid att starta terminal
+# source /usr/share/nvm/init-nvm.sh
