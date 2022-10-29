@@ -109,7 +109,7 @@ alias dir='dir --color=auto'
 alias vdir='vdir --color=auto'
 
 # färgning av grep
-export GREP_COLOR="1;33"            #variabel för färg av grep-träffarna
+export GREP_COLOR="mt=1;33"         #variabel för färg av grep-träffarna
 alias grep='grep --color=auto -n'   #skriv ut radnummer
 
 # modified commands
