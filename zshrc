@@ -438,3 +438,8 @@ if command -v pyenv 1>/dev/null 2>&1; then
 fi
 # testar att disabla, 2021-09-03, tar lång tid att starta terminal
 # source /usr/share/nvm/init-nvm.sh
+
+# 1. clone https://github.com/junegunn/fzf.git
+# 2. run ./install.sh in that repo
+# 3. read https://andrew-quinn.me/fzf/
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

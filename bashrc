@@ -376,3 +376,8 @@ function killps(){                 # Kill by process name.
 #     echo -en "\e]PFdedede" #white
 #     clear #for background artifacting
 # fi
+
+# 1. clone https://github.com/junegunn/fzf.git
+# 2. run ./install.sh in that repo
+# 3. read https://andrew-quinn.me/fzf/
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
