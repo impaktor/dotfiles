@@ -350,3 +350,10 @@ bakcyn='\e[46m'   # Cyan
 bakwht='\e[47m'   # White
 txtrst='\e[0m'    # Text Reset (no color)
 # exempel: PS1="\[$txtblu\]foo\[$txtred\] bar\[$txtrst\] baz : "
+
+
+# Bug(?) in rxvt-unicode 9.31, vertical position of prompt is not at top
+# https://bbs.archlinux.org/viewtopic.php?id=282791
+if [[ -z "${TERM_PROGRAM}" && "${TERM_PROGRAM}" != "vscode" ]]; then
+        echo -en '\033c'
+fi
