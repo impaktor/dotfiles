@@ -394,8 +394,9 @@ fpath=($HOME/usr/src/zsh-completions/src $fpath)
 
 # Add grayed out compleation suggestions as you type
 # trigger end-of-line to accept (e.g. C-e on if using emacs keys)
-source ~/usr/src/zsh-autosuggestions/zsh-autosuggestions.zsh
-
+if [ -d ~/usr/src/zsh-autosuggestions ]; then
+    source ~/usr/src/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
 
 #------------------------------
 # External libs. for syntax coloring
