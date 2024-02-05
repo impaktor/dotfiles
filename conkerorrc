@@ -369,7 +369,10 @@ define_webjump("so",            "http://stackoverflow.com/search?q=%s");
 define_webjump("youtube",       "http://www.youtube.com/results?search_query=%s&aq=f", $alternative="http://www.youtube.com/");
 define_webjump("yt",            "http://www.youtube.com/results?search_query=%s&aq=f", $alternative="http://www.youtube.com/");
 define_webjump("imdb",          "http://www.imdb.com/find?q=%s&s=all", $alternative="http://www.imdb.com/");
+
+// better than googel translate, for supported languages: https://www.deepl.com/translator
 define_webjump("trans",         "http://translate.google.com/translate_t#auto|en|%s");
+
 define_webjump("alpha",         "http://www36.wolframalpha.com/input/?i=%s");
 define_webjump("allmusic",      "http://www.allmusic.com/search/artist/%s");
 define_webjump("abebooks",      "http://www.abebooks.com/servlet/SearchResults?kn=%s");
@@ -462,6 +465,7 @@ define_webjump("xxl",            "https://xxl.no/search?q=%s");
 define_webjump("unvisit",       "http://unvis.it/%s", $alternative="http://unvis.it/");
 
 
+// open source search page: https://stract.com/
 define_webjump("s", "https://www.startpage.com/do/search",
     $post_data = [["query", "%s"], ["cat", "web"],
                   ["cmd", "process_search"], ["language", "english"],
