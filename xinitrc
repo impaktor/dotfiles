@@ -24,7 +24,7 @@ export MAGICK_OCL_DEVICE=OFF
 if [ $(hostname) == "dell" ]; then
     # doesn't work anymore after update & recompile of stumpwm
     # xrandr --output eDP-1 --scale 0.5x0.5 --output HDMI-1 --auto --right-of eDP-1
-    xrandr --output eDP-1 --scale 0.4x0.4 --output DP3 --scale 0.5x0.5 --right-of eDP1
+    xrandr --output eDP-1 --scale 0.4x0.4 --output DP-3 --scale 0.5x0.5 --right-of eDP-1
     # xrandr -s "1600x900" # --dpi 100
 fi
 
@@ -63,7 +63,7 @@ if [ -f /usr/bin/xscreensaver ]; then
 else
     # for locking screen (e.g. work place policy requires it)
     # (much smaller than xscreensaver)
-    xautolock -time 5 -locker slock &
+    xautolock -time 10 -locker slock &
 fi
 xbacklight -set 50         # reduce screen brightness by 50%
 
@@ -77,7 +77,7 @@ if [ -f /usr/bin/mpd ]; then
 fi
 
 
-# #När jag tittar på film:
+# # När jag tittar på film:
 # xset -dpms; xset s off
 
 #Set cursor theme:
@@ -113,7 +113,8 @@ if [ -f /etc/SuSE-release ]; then
     DEFAULT_SESSION=stumpwm
 else
 #   DEFAULT_SESSION=startfluxbox
-    DEFAULT_SESSION=ck-launch-session stumpwm
+    # DEFAULT_SESSION=ck-launch-session stumpwm
+    DEFAULT_SESSION=stumpwm
 fi
 
 DESKTOP_BACKGROUND=~/.fluxbox/backgrounds/suede.jpg
