@@ -67,10 +67,6 @@ else
 fi
 xbacklight -set 50         # reduce screen brightness by 50%
 
-# clipboard manager (with history), using dmenu
-systemctl --user import-environment DISPLAY # know which
-systemctl --user start clipmenud.service
-
 # reduce blue light from monitor, especially during evening
 # redshift &
 
@@ -131,6 +127,20 @@ if [ -f $DESKTOP_BACKGROUND ]; then
 else
     xsetroot -solid black &
 fi
+
+
+# start some nice programs
+if [ -d /etc/X11/xinit/xinitrc.d ] ; then
+ for f in /etc/X11/xinit/xinitrc.d/?*.sh ; do
+  [ -x "$f" ] && . "$f"
+ done
+ unset f
+fi
+
+# clipboard manager using dmenu. After install do:
+#  systemctl --user enable clipmenud.service
+# Note: must start _after_ xserver, sourced from: /etc/X11/xinit/xinitrc.d
+(sleep 60; clipmenud) &
 
 
 # Source: http://svn.berlios.de/svnroot/repos/slim/trunk/xinitrc.sample
