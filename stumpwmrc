@@ -1,5 +1,13 @@
 ;; -*- common-lisp -*-
+
 ;; (ql:update-all-dists)
+
+;; FIND ERRORS: Compile the config file using sbcl:
+;; (ql:quickload :stumpwm)
+;; (compile-file ".stumpwmrc")
+
+;; debugging (look at ".xsession-errors"), 0 (off) - 10 (on)
+;;(setf stumpwm::*debug-level* 0)
 
 ;; (defun mywm ()
 ;;   (run-commands "grename F1")
@@ -46,9 +54,6 @@
 ;; change color of help-text / message text?
 ;; defun = ej user visible, annars använd defcommand (har ersatt define-stumpwm-command)
 
-;; FIND ERRORS: Compile the config file using sbcl:
-;; (ql:quickload :stumpwm)
-;; (compile-file ".stumpwmrc")
 
 
 (in-package :stumpwm)
@@ -124,14 +129,13 @@
             "Lock screen using slock"
             (run-shell-command "slock"))
 
-;;XXX use urxvt-daemon instead of normal urxvt.
-(defcommand term () ()
-            "Use urxvt as terminal."
-            (run-shell-command "urxvtcd" '(:instance "urxvt")))
+;; (defcommand term () ()
+;;             "Open terminal"
+;;             (run-shell-command "alacritty" '(:instance "urxvt")))
 
 (defcommand tmux () ()
-            "Start a tmux session in urxvt"
-            (run-or-raise "urxvt -e tmux" '(:instance "tmux")))
+            "Start a tmux session in terminal"
+            (run-or-raise "alacritty -e tmux" '(:instance "tmux")))
 
 (defcommand emacs () () ;! redefining emacs command
             "Start emacs server if not running, elese connect to it."
@@ -259,7 +263,7 @@ then run the command synchronously and collect the output."
 ;; insted of the top-level ones, which are only there for beginners,
 ;; etc.
 (define-key *root-map* (kbd "F2")      "dmenu")
-(define-key *root-map* (kbd "F4")      "delete")
+;; (define-key *root-map* (kbd "F4")      "delete") ;; <prefix>-k for kill is better
 (define-key *root-map* (kbd "n")       "gnext")
 (define-key *root-map* (kbd "p")       "gprev")
 (define-key *root-map* (kbd "q")       "fselect")  ;; like tmux
@@ -384,9 +388,6 @@ then run the command synchronously and collect the output."
 
 ;;;; Misc ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; debugging (look at ".xsession-errors"), 0 (off) - 10 (on)
-;;(setf stumpwm::*debug-level* 0)
-
 ;;move mouse from focused window:
 (defun banish-mouse (from-group to-group)
   (if (typep (current-group) 'stumpwm::tile-group)
@@ -452,7 +453,7 @@ then run the command synchronously and collect the output."
 
 
 ;;;; The Mode Line ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; turn on/off the mode line for the current head only.
+;; Turn on/off the mode line for the current head only.
 
 ;; path to where I have the contrib modules https://github.com/stumpwm/stumpwm-contrib
 (set-module-dir (pathname-as-directory (concat (getenv "HOME") "/usr/src/stumpwm-contrib")))
@@ -472,14 +473,14 @@ then run the command synchronously and collect the output."
       *mode-line-pad-x*            0
       *mode-line-pad-y*            0)
 
-(if AT_HOME
-    (setf *screen-mode-line-format* (list "[%g]  | %c %f %C %t | %M |"))
-    (setf *screen-mode-line-format* (list "[%g] | %c %f %C %t | %M | %l <> ")))
-
-;; ;;Try for time&date to the right: (The ^> before %d makes it right-aligned.)
-;; (setf *time-modeline-string* "%Y-%m-%d %a ^B%l:%M^b")
-;; (setf *screen-mode-line-format* (list "[^B%n^b]%W" "^>[%d]"))
-
+;;- (if AT_HOME
+;;-     (setf *screen-mode-line-format* (list "[%g]  | %c %f %C %t | %M |"))
+;;-     (setf *screen-mode-line-format* (list "[%g] | %c %f %C %t | %M | %l <> ")))
+;;-
+;;- ;; ;;Try for time&date to the right: (The ^> before %d makes it right-aligned.)
+;;- ;; (setf *time-modeline-string* "%Y-%m-%d %a ^B%l:%M^b")
+;;- ;; (setf *screen-mode-line-format* (list "[^B%n^b]%W" "^>[%d]"))
+;;-
 ;; turn on the modeline
 (if (not (head-mode-line (current-head)))
     (toggle-mode-line (current-screen) (current-head)))
@@ -503,9 +504,8 @@ then run the command synchronously and collect the output."
       ;;      *input-history-ignore-duplicates* T
       *input-window-gravity*   :top-right)
 
-;; Message window font
-(set-font FONT)
-
+;;- ;; Message window font
+;;- (set-font FONT)
 
 ;;;;; Menu ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -661,7 +661,7 @@ then run the command synchronously and collect the output."
 ;; Create groups
 (run-commands
  "grename Main"
- "term"
+;; "alacritty"
  "gnewbg Emacs"
  "gnewbg Net")
 
