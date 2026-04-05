@@ -476,10 +476,10 @@ then run the command synchronously and collect the output."
       *mode-line-pad-x*            0
       *mode-line-pad-y*            0)
 
-;;- (if AT_HOME
-;;-     (setf *screen-mode-line-format* (list "[%g]  | %c %f %C %t | %M |"))
-;;-     (setf *screen-mode-line-format* (list "[%g] | %c %f %C %t | %M | %l <> ")))
-;;-
+(if AT_HOME
+    (setf *screen-mode-line-format* (list "[%g]  | %c %f %C %t | %M |"))
+    (setf *screen-mode-line-format* (list "[%g] | %c %f %C %t | %M | %l <> ")))
+
 ;;- ;; ;;Try for time&date to the right: (The ^> before %d makes it right-aligned.)
 ;;- ;; (setf *time-modeline-string* "%Y-%m-%d %a ^B%l:%M^b")
 ;;- ;; (setf *screen-mode-line-format* (list "[^B%n^b]%W" "^>[%d]"))
