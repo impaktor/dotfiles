@@ -134,7 +134,7 @@
 
 (defcommand term () ()
             "Terminal to use."
-            (run-shell-command "alacritty" '(:instance "alacritty")))
+            (run-or-raise "alacritty" '(:instance "alacritty")))
 
 (defcommand tmux () ()
             "Start a tmux session in terminal"
@@ -665,7 +665,6 @@ then run the command synchronously and collect the output."
 ;; Create groups
 (run-commands
  "grename Main"
- "term"
  "hsplit"
  "term"
  "gnewbg Emacs"
