@@ -11,6 +11,6 @@ video/*;         mpv %s > /dev/null;
 image/*;         qiv %s;
 image/*;         feh %s;
 
-text/html;       conkeror %s;
+text/html;       qutebrowser %s;
 
 x-scheme-handler/mailto; "emacsclient -e '(message-mailto "%u")'"
