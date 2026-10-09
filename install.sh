@@ -11,7 +11,7 @@ dir=~/.dotfiles                    # dotfiles directory
 olddir=~/.dotfiles_old             # old dotfiles backup directory
 
 # list of files/folders to symlink in homedir
-files="bashrc conkerorrc conkyrc gnuplot guile mailcap pylintrc scrotwm.conf shell_common stumpwmrc tmux.conf octaverc vimrc xinitrc xpdfrc Xmodmap Xresources zshrc zshenv zlogin"
+files="bashrc conkerorrc conkyrc gnuplot guile mailcap pylintrc scrotwm.conf shell_common tmux.conf octaverc vimrc xinitrc xpdfrc Xmodmap Xresources zshrc zshenv zlogin"
 
 ##########
 
@@ -32,3 +32,11 @@ for file in $files; do
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/.$file
 done
+
+# Keep in its own directory, since log is written to current config folder by default.
+# Looks for valid config folder in order:
+# 1. ~/.stumpwmrc
+# 2. ~/.stumpwm.d/init.lisp
+# 3. ~/.config/stumpwm/config (XDG)
+echo "Creating ~/.stumpwm/init.lisp symlink."
+ln -s $dir/stumpwmrc ~/.stumpwm.d/init.lisp
