@@ -7,8 +7,8 @@
 
 ########## Variables
 
-dir=~/.dotfiles                    # dotfiles directory
-olddir=~/.dotfiles_old             # old dotfiles backup directory
+dir=$HOME/.dotfiles                    # dotfiles directory
+olddir=$HOME/.dotfiles_old             # old dotfiles backup directory
 
 # list of files/folders to symlink in homedir
 files="bashrc conkerorrc conkyrc gnuplot guile mailcap pylintrc scrotwm.conf shell_common tmux.conf octaverc vimrc xinitrc xpdfrc Xmodmap Xresources zshrc zshenv zlogin"
@@ -32,6 +32,10 @@ for file in $files; do
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/.$file
 done
+
+# Install nyxt config
+mkdir -p $HOME/.config/nyxt/
+ln -s $dir/nyxt.lisp $HOME/.config/nyxt/config.lisp
 
 # Keep in its own directory, since log is written to current config folder by default.
 # Looks for valid config folder in order:
