@@ -393,6 +393,8 @@ define_webjump("dividend",      "http://www.dividend.com/");
 define_webjump("duck",          "https://html.duckduckgo.com/html?q=%s", $alternative="https://duckduckgo.com/html");
 define_webjump("Duck",          "https://duckduckgo.com/?q=%s", $alternative="https://duckduckgo.com/");
 
+define_webjump("brave",          "https://search.brave.com/search?q=%s", $alternative="https://search.brave.com/");
+
 define_webjump("ebay",          "http://www.ebay.com/sch/i.html?_nkw=%s",
                $alternative="http://my.ebay.co.uk");
 
@@ -415,6 +417,7 @@ define_webjump("kalender",      "http://www.norskkalender.no/");
 define_webjump("mathworld",     "http://mathworld.wolfram.com/search/?query=%s&x=0&y=0");
 define_webjump("archive",       "https://archive.vn/");
 define_webjump("metalarchives", "http://www.metal-archives.com/search?searchString=%s&type=band_name");
+define_webjump("bnrmetal",      "https://www.bnrmetal.com/");
 define_webjump("minecraftwiki", "http://www.minecraftwiki.net/wiki/Minecraft_Wiki");
 define_webjump("norsk",         "https://naob.no/ordbok/%s", $alternative="https://naob.no/ordbok/");
 define_webjump("pioneerwiki",   "https://wiki.pioneerspacesim.net");
@@ -475,7 +478,7 @@ define_webjump("s", "https://www.startpage.com/do/search",
 //use free dictionary instead:
 define_webjump("dictionary","http://www.thefreedictionary.com/%s");
 define_webjump("synonym",   "http://www.thefreedictionary.com/%s#Thesaurus");
-define_webjump("paste",     "http://paste.pocoo.org/");
+define_webjump("paste",     "https://paste.c-net.org/");
 define_webjump("pirate",    "https://thepiratebay.se/search/%s");
 define_webjump("python",    "http://docs.python.org/search.html?q=%s");
 define_webjump("eol",       "http://eol.org/search?q=%s&ie=UTF-8&search_type=text");
