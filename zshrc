@@ -30,6 +30,9 @@ HISTSIZE=10000                  # max events stored in internal histlist
 SAVEHIST=50000                  # max events to save in histfile
 PAGER='less'
 
+# Do not save (adjacent) duplicate entries
+setopt HIST_IGNORE_DUPS
+
 #use Emacs keybindings
 bindkey -e
 
@@ -390,26 +393,35 @@ fi
 
 # Add compleations not yet included in main vanilla zsh:
 # Note: might want to force rebuild: rm -f ~/.zcompdump; compinit
-fpath=($HOME/usr/src/zsh-completions/src $fpath)
-
-# Add grayed out compleation suggestions as you type
-# trigger end-of-line to accept (e.g. C-e on if using emacs keys)
-if [ -d ~/usr/src/zsh-autosuggestions ]; then
-    source ~/usr/src/zsh-autosuggestions/zsh-autosuggestions.zsh
-fi
+# update 2026-09: not needed, package installes directly into zsh.
+# fpath=($HOME/usr/src/zsh-completions/src $fpath)
 
 #------------------------------
 # External libs. for syntax coloring
 #------------------------------
 
-#fishshell like syntax highlighting (have this last in this file)
-if [ -d ~/usr/src/zsh-syntax-highlighting/ ]; then
-    source ~/usr/src/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Install using pacman:
+
+# Add grayed out compleation suggestions as you type
+# trigger end-of-line to accept (e.g. C-e on if using emacs keys)
+if [ -d /usr/share/zsh/plugins/zsh-autosuggestions ]; then
+    source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+fi
+
+if [ -d /usr/share/zsh/plugins/zsh-syntax-highlighting ]; then
+    source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# get similar behavour with uv as with pyenv, i.e. cd into project
+# folder with virtual python installed will activate that environment.
+# https://github.com/matthiasha/zsh-uv-env
+if [ -d ~/usr/src/zsh-uv-env ]; then
+    source ~/usr/src/zsh-uv-env/zsh-uv-env.plugin.zsh
 fi
 
 #fishshell like history search, loads after zsh-syntax-highlighting.zsh
-if [ -d ~/usr/src/zsh-history-substring-search/ ]; then
-    source ~/usr/src/zsh-history-substring-search/zsh-history-substring-search.zsh
+if [ -d /usr/share/zsh/plugins/zsh-history-substring-search ]; then
+    source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 
     # bind UP and DOWN arrow keys
     zmodload zsh/terminfo
