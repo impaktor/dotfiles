@@ -124,6 +124,15 @@
                                     " -sf " SELECT-FG-COLOR
                                     " -fn \""FONT2"\"")))
 
+;; https://git.zx2c4.com/password-store/tree/contrib/dmenu/passmenu
+(defcommand dpass () ()
+            "Use dmenu for getting passwords stored in with UNIX' pass command"
+            (run-shell-command (cat "passmenu " FOREGROUND-COLOR
+                                    " -nb " BACKGROUND-COLOR
+                                    " -sb " SELECT-BG-COLOR
+                                    " -sf " SELECT-FG-COLOR
+                                    " -fn \""FONT2"\"")))
+
 (defcommand browser () ()
             "Launch my browser"
   ;; (run-or-raise "exec conkeror -P default" '(:title "Conkeror default"))
@@ -234,7 +243,7 @@ then run the command synchronously and collect the output."
 ;; (define-key *top-map* (kbd "M-C-S-Right")  "gnext-with-window") ;; use mod + g + P/N instead
 ;; (define-key *top-map* (kbd "M-C-S-Left")   "gprev-with-window")
 (define-key *top-map* (kbd "M-TAB")        "next-in-frame")
-(define-key *top-map* (kbd "M-RET")        "fullscreen")
+;; (define-key *top-map* (kbd "M-RET")        "fullscreen") ;; use prefix-F11 instead
 
 (define-key *top-map* (kbd "Print")   "exec scrot")
 
@@ -304,7 +313,8 @@ then run the command synchronously and collect the output."
 ;; keybinding to start programs
 (define-key *root-map* (kbd "e")   "emacs")
 (define-key *root-map* (kbd "t")   "term")
-(define-key *root-map* (kbd "L")   "exec xscreensaver-command -lock")
+;;(define-key *root-map* (kbd "L")   "exec xscreensaver-command -lock")
+(define-key *root-map* (kbd "L")   "lock-screen")
 (define-key *root-map* (kbd "c")   "browser")
 (define-key *root-map* (kbd "T")   "tmux")
 
@@ -369,6 +379,10 @@ then run the command synchronously and collect the output."
 
 (define-frame-preference "Emacs"
     (1 t   t :class "Emacs"))
+
+(define-frame-preference "float"
+  (1 t   t :class "citrix")
+  (0 t   t :class "Wifca"))
 
 ;;create (floating?) group if it doesn't exist:
 ;; (define-frame-preference "Minecraft"
