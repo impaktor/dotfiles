@@ -15,7 +15,7 @@ eval "$(pyenv init -)"
 
 
 if [ -n "$DISPLAY" ]; then
-    export BROWSER=conkeror
+    export BROWSER=qutebrowser
 fi
 
 #don't have long lines in man, just because terminal is big.

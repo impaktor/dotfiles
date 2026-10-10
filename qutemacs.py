@@ -105,8 +105,12 @@ config.bind("<Ctrl-r>", "search-prev", mode="command")
 c.hints.mode = "number"  # or 'letter' / 'number'
 c.hints.chars = "1234567890"  # pure numeric like classic Conkeror
 
-# When to auto-follow a unique match
-c.hints.auto_follow = "unique-match"  # or "always" / "full-match" / "never"
+# When to auto-follow a unique match. Note: I prefer conkeror's way,
+# where you press RET to follow, thus I see the URL before following
+# it.
+c.hints.auto_follow = (
+    "unique-match"  # or "always" / "full-match" / "never" / "unique-match"
+)
 
 # Which unbound keys to forward to the webview in normal mode.
 c.input.forward_unbound_keys = "all"
@@ -122,6 +126,9 @@ c.input.insert_mode.auto_leave = True
 
 # yank URLs to clipboard
 config.bind("c0", "hint links yank")
+
+# Yank and format as org-mode link
+config.bind("yo", "yank inline [[{url}][{title}]]")
 
 # Default to darker colors
 # config.set("colors.webpage.darkmode.enabled", True)
@@ -166,6 +173,21 @@ config.bind("<Alt-v>", "fake-key -g <PgUp>")
 config.bind("<Space>", "scroll-page 0 0.5")
 config.bind("<Backspace>", "scroll-page 0 -0.5")
 
+config.bind("<Ctrl-n>", "fake-key <Down>", mode="insert")
+config.bind("<Ctrl-p>", "fake-key <Up>", mode="insert")
+
+# movement on page with C-p / C-n
+config.bind("<Ctrl-n>", "fake-key <Down>")
+config.bind("<Ctrl-p>", "fake-key <Up>")
+
+# paste C-y in input fileds
+config.bind("<Ctrl-y>", "fake-key <Ctrl-v>", mode="insert")
+# or try:
+# config.bind('<Ctrl-y>', 'insert-text {clipboard}', mode='insert')
+
+# undo on C-_
+config.bind("<Ctrl-_>", "fake-key <Ctrl-z>", mode="insert")
+config.bind("<Ctrl-Shift-->", "fake-key <Ctrl-z>", mode="insert")
 
 # Go to end/beginning of page.
 # xxx config.bind('<Alt-,>', 'scroll-to-perc 0')
@@ -256,9 +278,7 @@ config.bind("<Ctrl-a>", "move-to-start-of-line", mode="caret")
 # xxx config.bind('<Alt-,>', 'move-to-start-of-document', mode='caret')
 
 # Themes from: https://github.com/tinted-theming/base16-qutebrowser
-config.source(
-    "/home/karlf/usr/src/base16-qutebrowser/themes/default/base16-gruvbox-dark-medium.config.py"
-)
+config.source("/home/karlf/.config/qutebrowser/base16-gruvbox-dark-medium.config.py")
 
 # increase font size of qutebrowser's interface, like command and prompt
 c.fonts.default_size = "13pt"  # or 13pt, 14pt, 16pt, etc.
@@ -304,7 +324,6 @@ c.hints.selectors["all"].append("#page-header__search-button")
 
 
 # Conkeror's webjumps:
-
 # tradera, wayback, archive
 # http://downforeveryoneorjustme.com
 c.url.searchengines = {
@@ -312,6 +331,7 @@ c.url.searchengines = {
     "DEFAULT": "https://duckduckgo.com/?q={}",
     # DEFAULT: "https://duckduckgogg42xjoc72x3sjasowoarfbgcmvfimaftt6twagswzczad.onion/?q={}",
     "duck-html": "https://html.duckduckgo.com/html?q={}",
+    "image": "https://duckduckgo.com/?q={}&ia=images&iax=images",
     "s": "https://www.startpage.com/do/search{}",
     "g": "https://www.google.com/search?q={}",
     "G": "https://encrypted.google.com/search?hl=en&source=hp&q={}",
@@ -322,8 +342,9 @@ c.url.searchengines = {
     "imdb": "https://www.imdb.com/find?q={}&s=all",
     "rateyourmusic": "https://rateyourmusic.com/search?searchtype=a&searchterm={}",
     "metalarchives": "https://www.metal-archives.com/search?searchString={}&type=band_name",
+    "goodreads": "https://www.goodreads.com/search?q={}",
     # wikis
-    "w": "https://en.wikipedia.org/wiki/Special:Search?search={}",
+    "wiki": "https://en.wikipedia.org/wiki/Special:Search?search={}",
     "aw": "https://wiki.archlinux.org/?search={}",
     "aur": "https://aur.archlinux.org/packages?O=0&K={}",
     # Misc.
@@ -331,16 +352,21 @@ c.url.searchengines = {
     "openstreetmap": "https://www.openstreetmap.org/search?query={}",
     "unvisit": "https://unvis.it/{}",
     # Shopping
-    "abebooks": "http://www.abebooks.com/servlet/SearchResults?kn={}",
-    "ebay": "http://www.ebay.com/sch/i.html?_nkw={}",
+    "abebooks": "https://www.abebooks.com/servlet/SearchResults?kn={}",
+    "ebay": "http://www.ebay.co.uk/sch/i.html?_nkw={}",
     # Pioneer
     "pioneergit": "https://github.com/pioneerspacesim/pioneer/issues/{}",
     # Dictionaries
+    "synonym": "https://www.synonymer.se/sv-syn/{}",
     "urban": "https://www.urbandictionary.com/define.php?term={}",
     "dictionary": "https://www.thefreedictionary.com/{}",
-    "synonym": "https://www.thefreedictionary.com/{}#Thesaurus",
+    "thesaurus": "https://www.thefreedictionary.com/{}#Thesaurus",
     "trans": "https://translate.google.com/translate_t#auto|en|{}",
 }
+# Make webjump work also if no search term given. NOTE: for jumps where
+# I don't want the base url, (e.g. pioneergit) also add same alias in
+# quickmarks-file.
+config.set("url.open_base_url", True)
 
 
 # PRIVACY / TRACKING
@@ -360,24 +386,22 @@ config.set("content.javascript.enabled", True)
 
 # KEEPASSXC integration:
 
-# Method 1 - qute-keepassxc:
-# - install python-pynacl
-# config.bind('<Alt-Shift-u>', 'spawn --userscript qute-keepassxc --key ABC1234', mode='insert')
-# config.bind('pw', 'spawn --userscript qute-keepassxc --key ABC1234', mode='normal')
-
-# For TOTP, manually select input field, then exit input mode (ESC), then run:
-# config.bind('pt', 'spawn --userscript qute-keepassxc --key ABC1234 --totp', mode='normal')
-
-# Testar utan gpg
-# config.bind("<Alt-Shift-u>", "spawn --userscript qute-keepassxc", mode="insert")
-# config.bind("pw", "spawn --userscript qute-keepassxc", mode="normal")
-
-
-# Method 2 - qute-keepass:
-# :spawn --userscript
 config.bind(
     "pw",
-    "spawn --userscript qute-keepass -p ~/Sync/passwords.kdbx",
+    "spawn --userscript qute-keepassxc --key 5436BCEDAE64A288",
+    mode="normal",
+)
+config.bind(
+    "<Alt-Shift-u>",
+    "spawn --userscript qute-keepassxc --key 5436BCEDAE64A288",
+    mode="insert",
+)
+
+# For TOTP, manually select input field, then exit input mode (ESC), then run:
+config.bind(
+    "pt",
+    "spawn --userscript qute-keepassxc --key 5436BCEDAE64A288 --totp",
+    mode="normal",
 )
 
 c.url.start_pages = ["file:///home/karlf/.config/qutebrowser/startpage.html"]
